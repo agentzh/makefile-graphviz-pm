@@ -1,5 +1,6 @@
 package Makefile::GraphViz;
 
+use 5.006001;
 use strict;
 use warnings;
 
@@ -473,12 +474,11 @@ the underlying parsing job.
 I use L<Devel::Cover> to test the code coverage of my tests,
 below is the L<Devel::Cover> report on this module test suite.
 
-    ---------------------------- ------ ------ ------ ------ ------ ------ ------
-    File                           stmt   bran   cond    sub    pod   time  total
-    ---------------------------- ------ ------ ------ ------ ------ ------ ------
-    .../lib/Makefile/GraphViz.pm  100.0   90.9   69.0  100.0  100.0  100.0   90.9
-    Total                         100.0   90.9   69.0  100.0  100.0  100.0   90.9
-    ---------------------------- ------ ------ ------ ------ ------ ------ ------
+  ---------------------------- ------ ------ ------ ------ ------ ------ ------
+  File                           stmt   bran   cond    sub    pod   time  total
+  ---------------------------- ------ ------ ------ ------ ------ ------ ------
+  .../lib/Makefile/GraphViz.pm  100.0   93.2   71.4  100.0  100.0   61.5   92.1
+  ---------------------------- ------ ------ ------ ------ ------ ------ ------
 
 =head1 REPOSITORY
 
