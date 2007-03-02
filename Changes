@@ -1,83 +1,94 @@
 Revision history for Perl extension Makefile::GraphViz.
 
-0.11 11/4/2005
-	-
+0.11 2007-03-03
+
+* implemented the plot_all method mentioned in the SYNOPSIS (RT bug #24828)
+  (Ken Williams)++
+* added t/plot_all.t to test this new method
+* improved the POD a bit
+* added the -a option to gvmake to plot all the goals in the input Makefile
+* used "#!/usr/bin/env perl" in gvmake to improve portability.
+* updated the author's email address
+* added missing files to MANIFEST (make distcheck now passes)
+* Makefile.PL now requires Test::More 0.62
+* updated Test::Cover report in the POD
+
 
 0.10 10/28/2005
-	- Move the repository to http://svn.berlios.de/svnroot/repos/makefilegv.
-	  The OpenFoundtry seems to have been down for weeks.
-	- Update the POD doc accordingly
-	- Changed the colors used in the output inspired by Jack Shen's works. Jack++
-	- Updated the samples accordingly.
-	- Put the ~ in front of standard output file names, so TortoiseSVN won't skip them.
-	- Updated the tester accordingly.
+* Move the repository to http://svn.berlios.de/svnroot/repos/makefilegv.
+    The OpenFoundtry seems to have been down for weeks.
+* Update the POD doc accordingly
+* Changed the colors used in the output inspired by Jack Shen's works. Jack++
+* Updated the samples accordingly.
+* Put the ~ in front of standard output file names, so TortoiseSVN won't skip them.
+* Updated the tester accordingly.
 
 
 0.09 10/20/2005
-	- Remove blib from the repository.
+* Remove blib from the repository.
 
 0.08 10/17/2005
-	- Make the pictures cmintest.png and doc.png used by
-	  samples.html up to date.
-	- Move the sample pictures to a new folder named samples,
-	  and update the links in samples.html accordingly.
-	- Updated META.yml to the current version.
-	- Tested against Makefile::Parser 0.11 and all tests passed.
+* Make the pictures cmintest.png and doc.png used by
+    samples.html up to date.
+* Move the sample pictures to a new folder named samples,
+    and update the links in samples.html accordingly.
+* Updated META.yml to the current version.
+* Tested against Makefile::Parser 0.11 and all tests passed.
 
 0.07 10/16/2005
-	- Update the version number to 0.07
-	- Remove the .pl extention from the gvmake script. Slaven++
-	- Add TODOs to gvmake
-	- Update the SYNOPSIS section in gvmake's POD doc
-	- Fix a bug concerning CR in test files in Cygwin. Now
-	  file comparison in the tests ingores all the CR, LF, and
-	  \s characters, leading full passing rate under Cygwin.
-	  Slaven++
+* Update the version number to 0.07
+* Remove the .pl extention from the gvmake script. Slaven++
+* Add TODOs to gvmake
+* Update the SYNOPSIS section in gvmake's POD doc
+* Fix a bug concerning CR in test files in Cygwin. Now
+    file comparison in the tests ingores all the CR, LF, and
+    \s characters, leading full passing rate under Cygwin.
+    Slaven++
 
 0.06 10/15/2005
-	- Force this module to use Makefile::Parser 0.09. A serious
-	  bug concerning suffix rule parsing is fixed in
-	  Makefile::Parser 0.09
-	- Add more tests for Makefiles that uses implicit rules
-	  extensively.
+* Force this module to use Makefile::Parser 0.09. A serious
+    bug concerning suffix rule parsing is fixed in
+    Makefile::Parser 0.09
+* Add more tests for Makefiles that uses implicit rules
+    extensively.
 
 0.05 10/15/2005
-	- Fix a tiny bug in script/gvmake.pl, suppressing a stupid
-	  warning caused by the default Makefile name.
-	- Fix a bug in trim_cmd. It now functions properly
-	- Append ``...'' to trimmed command so as to make a difference
-	  in appearance.
-	- Force this module to use the lastes Makefile::Parser 0.08 so
-	  as to get support for implicit rules.
+* Fix a tiny bug in script/gvmake.pl, suppressing a stupid
+    warning caused by the default Makefile name.
+* Fix a bug in trim_cmd. It now functions properly
+* Append ``...'' to trimmed command so as to make a difference
+    in appearance.
+* Force this module to use the lastes Makefile::Parser 0.08 so
+    as to get support for implicit rules.
 
 0.04 10/5/2005
-	- Force this module to use the latest Makefile::Parser 0.07
-	- Host this module to the SVN server at OSSF.
-	- Strip CR from t/* and use File::Compare::compare_text to
-	  compare files.
+* Force this module to use the latest Makefile::Parser 0.07
+* Host this module to the SVN server at OSSF.
+* Strip CR from t/* and use File::Compare::compare_text to
+    compare files.
 
 0.03 2005-10-4
-	- Add options "end_with" and "exclude" to the ->plot method,
-	  giving even more control over the size of the rendered tree.
-	- Rename option "vir_tars" to "vir_nodes".
-	- Add option "normal_nodes" to rewrite the default behavior.
-	- Add gvmake.pl to /script directory
-	- Use DOT format instead of PNG in the test script,
-	  reducing space requirements significantly.
+* Add options "end_with" and "exclude" to the ->plot method,
+    giving even more control over the size of the rendered tree.
+* Rename option "vir_tars" to "vir_nodes".
+* Add option "normal_nodes" to rewrite the default behavior.
+* Add gvmake.pl to /script directory
+* Use DOT format instead of PNG in the test script,
+    reducing space requirements significantly.
 
 0.02  10/4/2005
-	- Fix the CR/LF problem in the test file, making the module
-	  working on Cygwin and other platforms.
-	- Add command node to the output graphs.
-	- Provide "trim_mode" option to the ->plot method so as to
-	  determine whether plot command nodes.
-	- Provide various options to ->plot, such as "edge_style",
-	  "normal_node_style", "vir_node_style", "cmd_style",
-	  "init_args", "vir_tars", and "gv". So the users get a
-	  much more controls over the output graphic format.
-	- Fix the back-slash problem in GraphViz labels.
+* Fix the CR/LF problem in the test file, making the module
+    working on Cygwin and other platforms.
+* Add command node to the output graphs.
+* Provide "trim_mode" option to the ->plot method so as to
+    determine whether plot command nodes.
+* Provide various options to ->plot, such as "edge_style",
+    "normal_node_style", "vir_node_style", "cmd_style",
+    "init_args", "vir_tars", and "gv". So the users get a
+    much more controls over the output graphic format.
+* Fix the back-slash problem in GraphViz labels.
 
 0.01  Fri Sep 30 21:12:10 2005
-	- original version; created by h2xs 1.23 with options
-		-AX Makefile::GraphViz
+* original version; created by h2xs 1.23 with options
+  	-AX Makefile::GraphViz
 
