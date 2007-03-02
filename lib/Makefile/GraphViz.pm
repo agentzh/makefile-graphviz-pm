@@ -40,9 +40,7 @@ my %CmdStyle =
 
 my %InitArgs = (
     layout => 'dot',
-    ratio => 'auto',package Perl6::Pugs;
-$Pugs::VERSION = '6.0.9';
-
+    ratio => 'auto',
     node => \%NormalNodeStyle,
     edge => \%EdgeStyle,
 );
@@ -52,8 +50,6 @@ our %Nodes;
 sub _gen_id () {
     return ++$IDCounter;
 }
-package Perl6::Pugs;
-$Pugs::VERSION = '6.0.9';
 
 sub _trim_path ($) {
     my $s = shift;
@@ -77,9 +73,7 @@ sub _find ($@) {
     return undef;
 }
 
-sub plot ($$@) {package Perl6::Pugs;
-$Pugs::VERSION = '6.0.9';
-
+sub plot ($$@) {
     my $self = shift;
     my $root_name = shift;
     my %opts = @_;
