@@ -1,10 +1,3 @@
-#: Makefile/GraphViz.pm
-#: Plot the detailed structure of Makefiles
-#:   using GraphViz
-#: v0.11
-#: Copyright (c) 2005 Agent Zhang
-#: 2005-09-30 2005-11-04
-
 package Makefile::GraphViz;
 
 use strict;
@@ -52,7 +45,33 @@ my %InitArgs = (
 
 our %Nodes;
 
-sub plot {
+sub _gen_id () {
+    return ++$IDCounter;
+}
+
+sub _trim_path ($) {
+    my $s = shift;
+    $s =~ s/.+(.{5}[\\\/].*)$/...$1/o;
+    $s =~ s/\\/\\\\/g;
+    return $s;
+}
+
+sub _trim_cmd ($) {
+    my $s = shift;
+    $s =~ s/((?:\S+\s+){2})\S.*/$1.../o;
+    $s =~ s/\\/\\\\/g;
+    return $s;
+}
+
+sub _find ($@) {
+    my $elem = shift;
+    foreach (@_) {
+        return 1 if $elem eq $_;
+    }
+    return undef;
+}
+
+sub plot ($$@) {
     my $self = shift;
     my $root_name = shift;
     my %opts = @_;
@@ -115,11 +134,11 @@ sub plot {
         %Nodes = ();
     }
 
-    return $gv if find($root_name, @exclude);
+    return $gv if _find($root_name, @exclude);
     #warn $gv;
     my $is_virtual = 0;
     if (!$Nodes{$root_name}) {
-        my $short_name = trim_path($root_name);
+        my $short_name = _trim_path($root_name);
         #$short_name =~ s/\\/\//g;
         #warn $short_name, "\n";
         if ($normal_nodes{$root_name}) {
@@ -137,13 +156,13 @@ sub plot {
         return $gv;
     }
     #warn "GraphViz: $gv\n";
-    return $gv if !$root or find($root_name, @end_with);
+    return $gv if !$root or _find($root_name, @end_with);
 
     my $lower_node;
     my @cmds = $root->commands;
     if (!$trim_mode and @cmds) {
-        $lower_node = gen_id();
-        my $cmds = join("\n", map { trim_cmd($_); } @cmds);
+        $lower_node = _gen_id();
+        my $cmds = join("\n", map { _trim_cmd($_); } @cmds);
         $gv->add_node($lower_node, label => $cmds, %cmd_style);
         $gv->add_edge(
             $lower_node => $root_name,
@@ -156,7 +175,7 @@ sub plot {
     my @depends = $root->depends;
     foreach (@depends) {
         #warn "$_\n";
-        next if find($_, @exclude);
+        next if _find($_, @exclude);
         $gv->add_edge(
             $_ => $lower_node,
             $is_virtual ? (style => 'dashed') : ());
@@ -167,30 +186,14 @@ sub plot {
     return $gv;
 }
 
-sub gen_id {
-    return ++$IDCounter;
-}
-
-sub trim_path {
-    my $s = shift;
-    $s =~ s/.+(.{5}[\\\/].*)$/...$1/o;
-    $s =~ s/\\/\\\\/g;
-    return $s;
-}
-
-sub trim_cmd {
-    my $s = shift;
-    $s =~ s/((?:\S+\s+){2})\S.*/$1.../o;
-    $s =~ s/\\/\\\\/g;
-    return $s;
-}
-
-sub find {
-    my $elem = shift;
-    foreach (@_) {
-        return 1 if $elem eq $_;
+sub plot_all ($) {
+    my $self = shift;
+    my $gv = GraphViz->new(%InitArgs);
+    %Nodes = ();
+    for my $target ($self->targets) {
+        $self->plot($target, gv => $gv);
     }
-    return undef;
+    $gv;
 }
 
 1;
@@ -198,7 +201,7 @@ __END__
 
 =head1 NAME
 
-Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz                        
+Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz
 
 =head1 SYNOPSIS
 
@@ -207,19 +210,20 @@ Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz
   $parser = Makefile::GraphViz->new;
   $parser->parse('Makefile');
 
-  # plot the tree rooted at the install target in Makefile:
+  # plot the tree rooted at the 'install' goal in Makefile:
   $gv = $parser->plot('install');  # A GraphViz object returned.
   $gv->as_png('install.png');
 
-  # plot the tree rooted at the default target in Makefile:
+  # plot the tree rooted at the 'default' goal in Makefile:
   $gv = $parser->plot;
   $gv->as_png('default.png');
 
-  # plot the forest consists of all the targets in Makefile:
+  # plot the forest consists of all the goals in Makefile:
   $gv = $parser->plot_all;
   $gv->as_png('default.png');
 
-  # you can also invoke all the methods inherited from the Makefile::Parser class:
+  # you can also invoke all the methods
+  # inherited from the Makefile::Parser class:
   @targets = $parser->targets;
 
 =head1 DESCRIPTION
@@ -237,7 +241,7 @@ improve this stuff unfailingly.
 
 =head1 SAMPLE PICTURES
 
-Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.11/samples.html>
+Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.12/samples.html>
 for some sample output graphs.
 
 =head1 INSTALLATION
@@ -259,12 +263,12 @@ Additionally this class also provides some more methods on its own right.
 
 =over
 
-=item plot($target, ...)
+=item $graphviz = plot($target, ...)
 
 This method is essential to the class. Users invoke this method to plot the specified
 Makefile target. If the argument is absent, the default target in the Makefile will
 be used. It will return a L<GraphViz> object, on which you can later call the
--E<gt>as_png or -E<gt>as_text method to obtain the final graphical output.
+C<as_png> or C<as_text> method to obtain the final graphical output.
 
 The argument can both be the target's name and a Makefile::Target object. If the
 given target can't be found in Makefile, the target will be plotted separately.
@@ -385,7 +389,9 @@ nodes will be plotted.
 
 The entries in this option's list are forced to be the
 virtual nodes. Virtual nodes are those Makefile targets
-with no real files corresponding to them.
+with no real files corresponding to them, which are generally
+called "phony targets" in the GNU make Manual and "pseudo targets"
+in MS NMAKE's docs.
 
 =item vir_node_style
 
@@ -405,6 +411,10 @@ border.
 
 =back
 
+=item $graphviz = plot_all()
+
+Plot all the (root) goals appeared in the Makefile.
+
 =back
 
 =head2 EXPORT
@@ -417,19 +427,19 @@ Internal functions should not be used directly.
 
 =over
 
-=item gen_id
+=item _gen_id
 
 Generate a unique id for command node.
 
-=item trim_path
+=item _trim_path
 
 Trim the path to a more readable form.
 
-=item trim_cmd
+=item _trim_cmd
 
 Trim the shell command to a more friendly size.
 
-=item find
+=item _find
 
 If the given element is found in the given list, this
 function will return 1; otherwise, a false value is
@@ -437,10 +447,31 @@ returned.
 
 =back
 
+=head1 TODO
+
+=over
+
+=item *
+
+Add support for the various options provided by the
+C<plot> method to the C<plot_all> method.
+
+=item *
+
+Use L<Params::Util> to check the validity of the
+method arguments.
+
+=item *
+
+Use the next generation of L<Makefile::Parser> to do
+the underlying parsing job.
+
+=back
+
 =head1 CODE COVERAGE
 
-I use L<Devel::Cover> to test the code coverage of my tests, below is the 
-L<Devel::Cover> report on this module test suite.
+I use L<Devel::Cover> to test the code coverage of my tests,
+below is the L<Devel::Cover> report on this module test suite.
 
     ---------------------------- ------ ------ ------ ------ ------ ------ ------
     File                           stmt   bran   cond    sub    pod   time  total
@@ -452,8 +483,8 @@ L<Devel::Cover> report on this module test suite.
 =head1 REPOSITORY
 
 For the very latest version of this module, check out the source from
-L<https://svn.berlios.de/svnroot/repos/makefilegv> (Subversion). There is
-anonymous access to all.
+L<https://svn.berlios.de/svnroot/repos/makefilegv> (Subversion).
+There is anonymous access to all.
 
 =head1 BUGS
 
@@ -466,13 +497,14 @@ L<gvmake>, L<GraphViz>, L<Makefile::Parser>.
 
 =head1 AUTHOR
 
-Agent Zhang, E<lt>agent2002@126.comE<gt>
+Agent Zhang E<lt>agentzh@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 Agent Zhang.
+Copyright (C) 2005, 2006, 2007 by Agent Zhang. All rights reserved.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it
+and/or modify it under the same terms as Perl itself.
 
 =cut
+

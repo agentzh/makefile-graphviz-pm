@@ -1,8 +1,8 @@
 #: Makefile-GraphViz.t
 #: Test Makefile::GraphViz
-#: Copyright (c) 2005 Agent Zhang
-#: v0.11
-#: 2005-09-30 2005-11-04
+
+use strict;
+use warnings;
 
 use Test::More tests => 34;
 use Makefile::GraphViz;
@@ -47,8 +47,8 @@ isa_ok $gv, 'GraphViz';
 my $tar = $parser->target('types.cod');
 ok $tar;
 is join("\n", $tar->commands), "cl /nologo /c /FAsc types.c\ndel types.obj";
-is Makefile::GraphViz::trim_cmd('del types.obj'), 'del types.obj';
-is Makefile::GraphViz::trim_cmd("del t\\tmp"), "del t\\\\tmp";
+is Makefile::GraphViz::_trim_cmd('del types.obj'), 'del types.obj';
+is Makefile::GraphViz::_trim_cmd("del t\\tmp"), "del t\\\\tmp";
 
 $outfile = 't/cmintest.dot';
 ok $gv->as_canon($outfile);
@@ -127,3 +127,4 @@ sub fcmp {
         }
     );
 }
+

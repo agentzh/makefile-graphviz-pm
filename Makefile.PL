@@ -4,17 +4,16 @@ use inc::Module::Install;
 my $gvmake = "script/gvmake";
 
 name            ('Makefile-GraphViz');
-version_from    ('lib/Makefile/GraphViz.pm');
-abstract       ( 'Plot Makefile building process using GraphViz' );
-author          ('Agent Zhang <agent2002@126.com>');
-license         ('perl');
+all_from        ('lib/Makefile/GraphViz.pm');
 
 install_script  ($gvmake);
 
-requires        ('GraphViz');
+requires        ('GraphViz' => '2.02');
 requires        ('Makefile::Parser' => '0.11');
 
 build_requires  ('Test::More');
-build_requires  ('File::Compare');
+build_requires  ('File::Compare' => '1.1003');
 
-&WriteAll;
+auto_install;
+WriteAll;
+

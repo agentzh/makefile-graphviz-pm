@@ -1,9 +1,6 @@
-#!perl
+#!/usr/bin/env perl
 #: gvmake
 #: Command-line driver for Makefile::GraphViz
-#: v0.11
-#: Copyright (c) 2005 Agent Zhang
-#: 2005-10-05 2006-01-01
 
 use strict;
 use warnings;
@@ -14,20 +11,21 @@ use Makefile::GraphViz;
 our $VERSION = '0.11';
 
 my %opts;
-getopts('hf:o:s:', \%opts);
+getopts('hf:o:s:a', \%opts) or
+    die "Use -h to see the usage\n";
 
 if ($opts{h}) {
-    print <<_EOC_;
-GVMAKE Version $VERSION
-Copyright (c) 2005, 2006 Agent Zhang
-
-Usage: gvmake [-h] [-f makefile] [-o pngfile] [-s] [target]
+    print <<'_EOC_';
+Usage:
+    gvmake [options] [target]*
 
 Options:
-    -s <w>x<h>     Specify the size (both for
-                   width and height)
+    -a              Plot all the goals.
+    -f <filename>   Use filename as Makefile.
+    -h              Print this help.
+    -s <w>x<h>      Specify the size (both for width and height)
+    -o <filename>   Use filename as output PNG file.
 
-Report bugs to <agent2002\@126.com>.
 _EOC_
     exit(0);
 }
@@ -42,17 +40,23 @@ my $makefile = $opts{f} || 'Makefile';
 warn "parsing $makefile...\n";
 $parser->parse($makefile) or die $parser->error;
 
-my $tar = shift @ARGV || $parser->target;
-warn "plotting target $tar...\n";
-my $gv = $parser->plot(
-	$tar,
-	init_args => {
-		width => $width, height => $height,
-    },
-);
-
-my $outfile = $opts{o} || "$tar.png";
-$gv->as_png($outfile);
+my $outfile;
+if ($opts{a}) {
+    my $gv = $parser->plot_all;
+    $outfile = "$makefile.png";
+    $gv->as_png($outfile);
+} else {
+    my $tar = shift @ARGV || $parser->target;
+    warn "plotting target $tar...\n";
+    my $gv = $parser->plot(
+        $tar,
+    init_args => {
+        width => $width, height => $height,
+        },
+    );
+    $outfile = $opts{o} || "$tar.png";
+    $gv->as_png($outfile);
+}
 warn "$outfile generated.\n";
 
 __END__
@@ -80,9 +84,11 @@ gvmake - A make tool that generates pretty graphs from Makefile
     # specify the Makefile name explicitly:
     gvmake -f t/Makefile.old install
 
-	# specify the size of the output image:
-	gvmake -s 5x8	# width is 5 inch, and height is 8 inch
+    # generate Makefile.png which contains all the goals
+    gvmake -a
 
+    # specify the size of the output image:
+    gvmake -s 5x8    # width is 5 inch, and height is 8 inch
 
 =head1 DESCRIPTION
 
@@ -106,6 +112,10 @@ Add more command-line options to control the graph appearance
 
 To support more output file format
 
+=item *
+
+Add support for multiple goals passed in via command-line.
+
 =back
 
 =head1 BUGS
@@ -119,13 +129,14 @@ L<Makefile::GraphViz>, L<Makefile::Parser>.
 
 =head1 AUTHOR
 
-Agent Zhang, E<lt>agent2002@126.comE<gt>
+Agent Zhang, E<lt>agentzh@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005, 2006 Agent Zhang.
+Copyright (C) 2005, 2006, 2007 by Agent Zhang. All rights reserved.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
+
