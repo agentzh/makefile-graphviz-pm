@@ -18,6 +18,11 @@ requires        ('Makefile::Parser' => '0.11');
 build_requires  ('Test::More' => '0.62');
 build_requires  ('File::Compare' => '1.1003');
 
+no_index        (
+    directory =>
+        qw< script samples >
+);
+
 auto_install;
 WriteAll;
 
