@@ -6,6 +6,10 @@ my $gvmake = "script/gvmake";
 name            ('Makefile-GraphViz');
 all_from        ('lib/Makefile/GraphViz.pm');
 
+#my $version = version();
+#$version =~ s{(\d{3})(\d{3})?$}{int($1).'.'.int($2||0)}e;
+#version($version);
+
 install_script  ($gvmake);
 
 requires        ('GraphViz' => '2.02');
