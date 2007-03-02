@@ -490,11 +490,15 @@ below is the L<Devel::Cover> report on this module test suite.
   .../lib/Makefile/GraphViz.pm  100.0   93.2   71.4  100.0  100.0   61.5   92.1
   ---------------------------- ------ ------ ------ ------ ------ ------ ------
 
-=head1 REPOSITORY
+=head1 SOURCE CONTROL
 
 For the very latest version of this module, check out the source from
-L<https://svn.berlios.de/svnroot/repos/makefilegv> (Subversion).
-There is anonymous access to all.
+the SVN repos below:
+
+L<https://svn.berlios.de/svnroot/repos/makefilegv>
+
+There is anonymous access to all. If you'd like a commit bit, please let
+me know. :)
 
 =head1 BUGS
 
