@@ -20,7 +20,7 @@ build_requires  ('File::Compare' => '1.1003');
 
 no_index        (
     directory =>
-        qw< script samples >
+        qw< samples >
 );
 
 auto_install;

@@ -1,5 +1,10 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.12 2007-03-03
+
+* index script/ as before
+* minor POD tweaks
+
 0.11 2007-03-03
 
 * implemented the plot_all method mentioned in the SYNOPSIS (RT bug #24828)
