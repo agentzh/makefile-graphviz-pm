@@ -3,7 +3,7 @@ use Test::More tests => 4;
 use Makefile::GraphViz;
 use File::Compare;
 
-my $DEBUG = 0;
+my $DEBUG = 1;
 
 {
     my $parser = Makefile::GraphViz->new;

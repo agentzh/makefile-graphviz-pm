@@ -192,7 +192,7 @@ sub plot_all ($) {
     my $self = shift;
     my $gv = GraphViz->new(%InitArgs);
     %Nodes = ();
-    for my $target ($self->targets) {
+    for my $target ($self->roots) {
         $self->plot($target, gv => $gv);
     }
     $gv;
