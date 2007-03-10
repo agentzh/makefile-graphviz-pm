@@ -203,7 +203,7 @@ __END__
 
 =head1 NAME
 
-Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz
+Makefile::GraphViz - Draw the detailed structure of Makefiles using GraphViz
 
 =head1 VERSION
 
