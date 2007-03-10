@@ -249,7 +249,7 @@ Anyway, I have the plan to improve this stuff unfailingly.
 
 =head1 SAMPLE PICTURES
 
-Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.13/samples.html>
+Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.14/samples.html>
 for some sample output graphs.
 
 =head1 INSTALLATION
