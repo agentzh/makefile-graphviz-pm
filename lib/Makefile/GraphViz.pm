@@ -8,7 +8,7 @@ use vars qw { $VERSION };
 use GraphViz;
 use base 'Makefile::Parser';
 
-$VERSION = '0.13';
+$VERSION = '0.14';
 
 $Makefile::Parser::Strict = 0;
 
@@ -207,7 +207,7 @@ Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz
 
 =head1 VERSION
 
-This document describes Makefile::GraphViz 0.13 released on 3 March, 2007.
+This document describes Makefile::GraphViz 0.14 released on 10 March, 2007.
 
 =head1 SYNOPSIS
 
@@ -271,7 +271,7 @@ Additionally this class also provides some more methods on its own right.
 
 =over
 
-=item $graphviz = plot($target, ...)
+=item C<< $graphviz = plot($target, ...) >>
 
 This method is essential to the class. Users invoke this method to plot the specified
 Makefile target. If the argument is absent, the default target in the Makefile will
@@ -419,15 +419,11 @@ border.
 
 =back
 
-=item $graphviz = plot_all()
+=item C<< $graphviz = $object->plot_all() >>
 
 Plot all the (root) goals appeared in the Makefile.
 
 =back
-
-=head2 EXPORT
-
-None by default.
 
 =head2 INTERNAL FUNCTIONS
 
@@ -512,10 +508,8 @@ Agent Zhang E<lt>agentzh@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005, 2006, 2007 by Agent Zhang. All rights reserved.
+Copyright (C) 2005-2007 by Agent Zhang. All rights reserved.
 
 This library is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.
-
-=cut
 
