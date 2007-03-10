@@ -3,7 +3,7 @@ NAME
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.13 released on 3 March,
+    This document describes Makefile::GraphViz 0.14 released on 10 March,
     2007.
 
 SYNOPSIS
@@ -63,7 +63,7 @@ The Makefile::GraphViz Class
     methods on its own right.
 
 METHODS
-    $graphviz = plot($target, ...)
+    "$graphviz = plot($target, ...)"
         This method is essential to the class. Users invoke this method to
         plot the specified Makefile target. If the argument is absent, the
         default target in the Makefile will be used. It will return a
@@ -194,11 +194,8 @@ METHODS
 
             By default, virtual nodes are yellow rectangles with no border.
 
-    $graphviz = plot_all()
+    "$graphviz = $object->plot_all()"
         Plot all the (root) goals appeared in the Makefile.
-
-  EXPORT
-    None by default.
 
   INTERNAL FUNCTIONS
     Internal functions should not be used directly.
@@ -255,7 +252,7 @@ AUTHOR
     Agent Zhang <agentzh@gmail.com>
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2005, 2006, 2007 by Agent Zhang. All rights reserved.
+    Copyright (C) 2005-2007 by Agent Zhang. All rights reserved.
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

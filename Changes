@@ -1,5 +1,9 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.14 2007-03-10
+* minor POD fixes
+* requires Makefile::Parser 0.13 now
+
 0.13 2007-03-03
 * fixed a bottle-neck in sub plot_all (the roots method is now called instead of the targets method)
 * updated the tests accordingly.
