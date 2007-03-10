@@ -1,5 +1,9 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.13 2007-03-03
+* fixed a bottle-neck in sub plot_all (the roots method is now called instead of the targets method)
+* updated the tests accordingly.
+
 0.12 2007-03-03
 
 * index script/ as before

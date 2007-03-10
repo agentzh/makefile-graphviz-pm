@@ -8,7 +8,7 @@ use vars qw { $VERSION };
 use GraphViz;
 use base 'Makefile::Parser';
 
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 $Makefile::Parser::Strict = 0;
 
@@ -207,7 +207,7 @@ Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using GraphViz
 
 =head1 VERSION
 
-This document describes Makefile::GraphViz 0.12 released on 3 March, 2007.
+This document describes Makefile::GraphViz 0.13 released on 3 March, 2007.
 
 =head1 SYNOPSIS
 
@@ -249,7 +249,7 @@ Anyway, I have the plan to improve this stuff unfailingly.
 
 =head1 SAMPLE PICTURES
 
-Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.12/samples.html>
+Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.13/samples.html>
 for some sample output graphs.
 
 =head1 INSTALLATION
