@@ -1,6 +1,5 @@
 package Makefile::GraphViz;
 
-use 5.006001;
 use strict;
 use warnings;
 use vars qw { $VERSION };
@@ -8,7 +7,7 @@ use vars qw { $VERSION };
 use GraphViz;
 use base 'Makefile::Parser';
 
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 $Makefile::Parser::Strict = 0;
 
@@ -207,7 +206,7 @@ Makefile::GraphViz - Draw building flowchart from Makefiles using GraphViz
 
 =head1 VERSION
 
-This document describes Makefile::GraphViz 0.14 released on 10 March, 2007.
+This document describes Makefile::GraphViz 0.15 released on 12 March, 2007.
 
 =head1 SYNOPSIS
 
@@ -249,7 +248,7 @@ Anyway, I have the plan to improve this stuff unfailingly.
 
 =head1 SAMPLE PICTURES
 
-Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.14/samples.html>
+Browse L<http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.15/samples.html>
 for some sample output graphs.
 
 =head1 INSTALLATION

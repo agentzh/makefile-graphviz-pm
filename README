@@ -1,5 +1,5 @@
 NAME
-    Makefile::GraphViz - Plot the Detailed Structure of Makefiles Using
+    Makefile::GraphViz - Draw building flowchart from Makefiles using
     GraphViz
 
 VERSION
@@ -44,7 +44,7 @@ DESCRIPTION
 
 SAMPLE PICTURES
     Browse
-    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.13/samples.html>
+    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.14/samples.html>
     for some sample output graphs.
 
 INSTALLATION

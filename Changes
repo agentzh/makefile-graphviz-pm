@@ -1,5 +1,9 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.15 2007-03-12
+* lowered the version number for the building prerequisites
+* bumped the Makefile::Parser version to 0.14
+
 0.14 2007-03-10
 * minor POD fixes
 * requires Makefile::Parser 0.13 now
