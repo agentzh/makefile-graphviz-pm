@@ -3,7 +3,7 @@ NAME
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.14 released on 10 March,
+    This document describes Makefile::GraphViz 0.15 released on 12 March,
     2007.
 
 SYNOPSIS
@@ -44,7 +44,7 @@ DESCRIPTION
 
 SAMPLE PICTURES
     Browse
-    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.14/samples.html>
+    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.15/samples.html>
     for some sample output graphs.
 
 INSTALLATION

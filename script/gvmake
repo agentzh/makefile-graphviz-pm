@@ -121,7 +121,7 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Makefile-GraphViz>.
 
 =head1 SEE ALSO
 
-L<Makefile::GraphViz>, L<Makefile::Parser>.
+L<Makefile::GraphViz>, L<Makefile::Parser>, L<plmake>.
 
 =head1 AUTHOR
 

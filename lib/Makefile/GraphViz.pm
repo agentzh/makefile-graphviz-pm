@@ -202,7 +202,7 @@ __END__
 
 =head1 NAME
 
-Makefile::GraphViz - Draw building flowchart from Makefiles using GraphViz
+Makefile::GraphViz - Draw building flowcharts from Makefiles using GraphViz
 
 =head1 VERSION
 
