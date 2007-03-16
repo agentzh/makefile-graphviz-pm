@@ -1,9 +1,9 @@
 NAME
-    Makefile::GraphViz - Draw building flowchart from Makefiles using
+    Makefile::GraphViz - Draw building flowcharts from Makefiles using
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.15 released on 12 March,
+    This document describes Makefile::GraphViz 0.16 released on 16 March,
     2007.
 
 SYNOPSIS
@@ -44,7 +44,7 @@ DESCRIPTION
 
 SAMPLE PICTURES
     Browse
-    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.15/samples.html>
+    <http://search.cpan.org/src/AGENT/Makefile-GraphViz-0.16/samples.html>
     for some sample output graphs.
 
 INSTALLATION
