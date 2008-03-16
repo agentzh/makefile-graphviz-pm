@@ -2,12 +2,13 @@ package Makefile::GraphViz;
 
 use strict;
 use warnings;
-use vars qw { $VERSION };
+use vars qw($VERSION);
 
+#use Smart::Comments;
 use GraphViz;
 use base 'Makefile::Parser';
 
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 $Makefile::Parser::Strict = 0;
 
@@ -127,63 +128,82 @@ sub plot ($$@) {
     $val = $opts{exclude};
     my @exclude = ($val and ref $val) ? @$val : ();
 
-    my $root = ($root_name and ref $root_name) ?
-        $root_name : ($self->target($root_name));
+    return $gv if _find($root_name, @exclude);
 
     if (!$gv) {
         $gv = GraphViz->new(%init_args);
         %Nodes = ();
     }
 
-    return $gv if _find($root_name, @exclude);
-    #warn $gv;
     my $is_virtual = 0;
-    if (!$Nodes{$root_name}) {
-        my $short_name = _trim_path($root_name);
-        #$short_name =~ s/\\/\//g;
-        #warn $short_name, "\n";
-        if ($normal_nodes{$root_name}) {
-            $is_virtual = 0;
-        } elsif ($vir_nodes{$root_name} or ($root and !$root->commands)) {
-            $is_virtual = 1;
-        }
+    if ($Nodes{$root_name}) {
+        return $gv;
+    }
+    $Nodes{$root_name} = 1;
+    #warn "GraphViz: $gv\n";
+
+    my @roots = ($root_name and ref $root_name) ?
+        $root_name : ($self->target($root_name));
+
+    my $short_name = _trim_path($root_name);
+    if ($normal_nodes{$root_name}) {
+        $is_virtual = 0;
+    } elsif ($vir_nodes{$root_name} or @roots and !$roots[0]->commands) {
+        $is_virtual = 1;
+    }
+
+    if (!@roots or _find($root_name, @end_with)) {
         $gv->add_node(
             $root_name,
             label => $short_name,
             $is_virtual ? %vir_node_style : ()
         );
-        $Nodes{$root_name} = 1;
-    } else {
         return $gv;
     }
-    #warn "GraphViz: $gv\n";
-    return $gv if !$root or _find($root_name, @end_with);
+    #my $short_name = $root_name;
 
-    my $lower_node;
-    my @cmds = $root->commands;
-    if (!$trim_mode and @cmds) {
-        $lower_node = _gen_id();
-        my $cmds = join("\n", map { _trim_cmd($_); } @cmds);
-        $gv->add_node($lower_node, label => $cmds, %cmd_style);
-        $gv->add_edge(
-            $lower_node => $root_name,
-            $is_virtual ? (style => 'dashed') : ()
+    my $i = 0;
+    for my $root (@roots) {
+        #warn $i, "???\n";
+        ### $root_name
+        ### $root
+        #$short_name =~ s/\\/\//g;
+        #warn $short_name, "\n";
+        #warn $short_name, "!!!!!!!!!!!!!!!!\n";
+        $gv->add_node(
+            $root_name,
+            label => $short_name,
+            $is_virtual ? %vir_node_style : ()
         );
-    } else {
-        $lower_node = $root_name;
-    }
 
-    my @depends = $root->depends;
-    foreach (@depends) {
-        #warn "$_\n";
-        next if _find($_, @exclude);
-        $gv->add_edge(
-            $_ => $lower_node,
-            $is_virtual ? (style => 'dashed') : ());
-        $self->plot($_, gv => $gv, @_);
-    }
-    #warn "END\n";
-    #warn "GraphViz: $gv\n";
+        #warn $gv;
+        my $lower_node;
+        my @cmds = $root->commands;
+        if (!$trim_mode and @cmds) {
+            $lower_node = _gen_id();
+            my $cmds = join("\n", map { _trim_cmd($_); } @cmds);
+            $gv->add_node($lower_node, label => $cmds, %cmd_style);
+            $gv->add_edge(
+                $lower_node => $root_name,
+                $is_virtual ? (style => 'dashed') : ()
+            );
+        } else {
+            $lower_node = $root_name;
+        }
+
+        my @prereqs = $root->prereqs;
+        foreach (@prereqs) {
+            #warn "$_\n";
+            next if _find($_, @exclude);
+            $gv->add_edge(
+                $_ => $lower_node,
+                $is_virtual ? (style => 'dashed') : ());
+            #warn "$_ ++++++++++++++++++++\n";
+            $self->plot($_, gv => $gv, @_);
+        }
+        #warn "END\n";
+        #warn "GraphViz: $gv\n";
+    } continue { $i++ }
     return $gv;
 }
 
@@ -206,7 +226,7 @@ Makefile::GraphViz - Draw building flowcharts from Makefiles using GraphViz
 
 =head1 VERSION
 
-This document describes Makefile::GraphViz 0.16 released on 16 March, 2007.
+This document describes Makefile::GraphViz 0.17 released on March 16, 2008.
 
 =head1 SYNOPSIS
 
@@ -245,6 +265,40 @@ module directly. :)
 B<WARNING> This module is highly experimental and is currently at
 B<alpha> stage, so production use is strongly discouraged right now.
 Anyway, I have the plan to improve this stuff unfailingly.
+
+For instance, the following makefile
+
+    all: foo
+    all: bar
+            echo hallo
+
+    any: foo hiya
+            echo larry
+            echo howdy
+    any: blah blow
+
+    foo:: blah boo
+            echo Hi
+    foo:: howdy buz
+            echo Hey
+
+produces the following image via the C<plot_all> method:
+
+=begin html
+
+<!-- this h1 part is for search.cpan.org -->
+<h1>
+<a class = 'u' 
+   href  = '#___top'
+   title ='click to go to top of document'
+   name  = "PNG IMAGE"
+>PNG IMAGE</a>
+</h1>
+
+<p><img src="http://agentzh.org/misc/multi.png" border=0 alt="image hosted by agentzh.org"/></p>
+<p>Image hosted by <a href="http://agentzh.org">agentzh.org</a></p>
+
+=end html
 
 =head1 SAMPLE PICTURES
 
@@ -503,11 +557,11 @@ L<gvmake>, L<GraphViz>, L<Makefile::Parser>.
 
 =head1 AUTHOR
 
-Agent Zhang E<lt>agentzh@gmail.comE<gt>
+Agent Zhang C<< <agentzh@yahoo.cn> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2007 by Agent Zhang. All rights reserved.
+Copyright (C) 2005-2008 by Agent Zhang.
 
 This library is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.

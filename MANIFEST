@@ -14,6 +14,7 @@ inc/Module/Install/WriteAll.pm
 lib/Makefile/GraphViz.pm
 Makefile.PL
 MANIFEST
+MANIFEST.SKIP
 META.yml
 README
 samples.html
@@ -25,6 +26,7 @@ t/Makefile
 t/Makefile2
 t/Makefile3
 t/Makefile4
+t/Makefile5
 t/plot_all.t
 t/pod-coverage.t
 t/pod.t
@@ -35,3 +37,5 @@ t/~install.dot
 t/~install2.dot
 t/~Makefile4.dot
 t/~sum.dot
+t/~multi.dot
+

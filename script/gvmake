@@ -93,6 +93,21 @@ process according to user's Makefile instead of actually building
 something. It is a simple command-line frontend for the
 L<Makefile::GraphViz> module.
 
+For GNU makefile, it's I<highly> recommended to
+use L<Makefile::Parser>'s L<makesimple>
+script to convert your GNU makefile to the simplest form I<before> running
+this script. Because this L<Makefile::GraphViz> uses the
+toy L<Makefile::Parser> engine which can only handle a very limited
+set of GNU makefile features while the L<Makefile::Parser::GmakeDB> engine
+used by the L<makesimple> script reuses the GNU make executable
+to do the (first-pass) parsing.
+
+Thus you normally should do something like this:
+
+    cd dir_where_your_project_lives
+    makesimple -f your_makefile > simplest.mk
+    gvmake -f simplest.mk some_target
+
 Currently only PNG format and the default settings for the graph
 style are used. This inflexible design will be changed soon.
 

@@ -1,4 +1,5 @@
 use strict;
+use lib '.';
 use inc::Module::Install;
 
 my $gvmake = "script/gvmake";
