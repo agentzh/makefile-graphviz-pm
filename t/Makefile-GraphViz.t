@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 34;
+use Test::More tests => 38;
 use Makefile::GraphViz;
 use File::Compare;
 
@@ -121,10 +121,9 @@ $gv = $parser->plot_all;
 ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/multi.dot';
-ok $gv->as_png($outfile);
+ok $gv->as_canon($outfile);
 is fcmp($outfile, "t/~multi.dot"), 0;
 unlink $outfile if !$debug;
-
 
 sub fcmp {
     return File::Compare::compare_text(

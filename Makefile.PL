@@ -15,7 +15,7 @@ all_from        ('lib/Makefile/GraphViz.pm');
 install_script  ($gvmake);
 
 requires        ('GraphViz' => '2.02');
-requires        ('Makefile::Parser' => '0.16');
+requires        ('Makefile::Parser' => '0.210');
 
 build_requires  ('Test::More');
 build_requires  ('File::Compare');

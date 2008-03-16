@@ -3,8 +3,8 @@ NAME
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.16 released on 16 March,
-    2007.
+    This document describes Makefile::GraphViz 0.17 released on March 16,
+    2008.
 
 SYNOPSIS
       use Makefile::GraphViz;
@@ -41,6 +41,24 @@ DESCRIPTION
     WARNING This module is highly experimental and is currently at alpha
     stage, so production use is strongly discouraged right now. Anyway, I
     have the plan to improve this stuff unfailingly.
+
+    For instance, the following makefile
+
+        all: foo
+        all: bar
+                echo hallo
+
+        any: foo hiya
+                echo larry
+                echo howdy
+        any: blah blow
+
+        foo:: blah boo
+                echo Hi
+        foo:: howdy buz
+                echo Hey
+
+    produces the following image via the "plot_all" method:
 
 SAMPLE PICTURES
     Browse
@@ -249,10 +267,10 @@ SEE ALSO
     gvmake, GraphViz, Makefile::Parser.
 
 AUTHOR
-    Agent Zhang <agentzh@gmail.com>
+    Agent Zhang "<agentzh@yahoo.cn>"
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2005-2007 by Agent Zhang. All rights reserved.
+    Copyright (C) 2005-2008 by Agent Zhang.
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

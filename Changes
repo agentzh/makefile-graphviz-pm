@@ -1,5 +1,10 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.17 2008-03-16
+* added support for double-colon rules.
+* now we require Makefile::Parser for support of double-colon rules
+  and multiple single-colon instances.
+
 0.16 2007-03-16
 * minor POD fixes
 * bumped the Makefile::Parser version we require here to 0.16
