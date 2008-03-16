@@ -8,7 +8,7 @@ use Test::More tests => 38;
 use Makefile::GraphViz;
 use File::Compare;
 
-my $debug = 1;
+my $debug = 0;
 
 my $parser = Makefile::GraphViz->new;
 ok $parser;
