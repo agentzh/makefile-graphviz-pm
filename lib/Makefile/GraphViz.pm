@@ -8,7 +8,7 @@ use vars qw($VERSION);
 use GraphViz;
 use base 'Makefile::Parser';
 
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 $Makefile::Parser::Strict = 0;
 
@@ -226,7 +226,7 @@ Makefile::GraphViz - Draw building flowcharts from Makefiles using GraphViz
 
 =head1 VERSION
 
-This document describes Makefile::GraphViz 0.17 released on March 16, 2008.
+This document describes Makefile::GraphViz 0.18 released on June 20, 2008.
 
 =head1 SYNOPSIS
 
@@ -561,8 +561,9 @@ Agent Zhang C<< <agentzh@yahoo.cn> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2008 by Agent Zhang.
+Copyright (c) 2005-2008 by Agent Zhang.
 
 This library is free software; you can redistribute it
-and/or modify it under the same terms as Perl itself.
+and/or modify it under the same terms as Perl itself, namely,
+the Artistic or GPL license.
 

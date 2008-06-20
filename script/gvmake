@@ -3,41 +3,55 @@
 use strict;
 use warnings;
 
-use Getopt::Std;
+use Getopt::Long;
 use Makefile::GraphViz;
 
-my %opts;
-getopts('hf:o:s:a', \%opts) or
-    die "Use -h to see the usage\n";
+my $layout = 'dot';
+GetOptions(
+    'help|h' => \(my $help),
+    'file|f=s' => \(my $makefile),
+    'all|a'  => \(my $make_all),
+    'out|o=s'  => \(my $outfile),
+    'edge-len=f' => \(my $edge_len),
+    'layout=s' => \($layout),
+    'debug' => \(my $debug),
+    'size|s=s' => \(my $size),
+) or die help();
 
-if ($opts{h}) {
-    print <<'_EOC_';
+if ($help) { print help(); exit;  }
+
+sub help {
+    return <<'_EOC_';
 Usage:
     gvmake [options] [target]*
 
 Options:
-    -a              Plot all the goals.
-    -f <filename>   Use filename as Makefile.
-    -h              Print this help.
-    -s <w>x<h>      Specify the size (both for width and height)
-    -o <filename>   Use filename as output PNG file.
+    --all
+    -a                Plot all the goals.
+    -f <filename>
+    -file <filename>  Use filename as Makefile.
+    --help
+    -h                Print this help.
+    --size
+    -s <w>x<h>        Specify the size (both for width and height)
+    --out
+    -o <filename>     Use filename as output PNG file.
+    --edge-len <len>  Specify the "len" attribute for edges.
+    --debug           Generate .dot file rather than PNG
 
 _EOC_
-    exit(0);
 }
 
-my $size = $opts{s};
 my ($width, $height);
-($width, $height) = split 'x', $opts{s} if $opts{s};
+($width, $height) = split 'x', $size if $size;
 
 my $parser = Makefile::GraphViz->new;
 
-my $makefile = $opts{f} || 'Makefile';
+$makefile ||= 'Makefile';
 warn "parsing $makefile...\n";
 $parser->parse($makefile) or die $parser->error;
 
-my $outfile;
-if ($opts{a}) {
+if ($make_all) {
     my $gv = $parser->plot_all;
     $outfile = "$makefile.png";
     $gv->as_png($outfile);
@@ -46,14 +60,30 @@ if ($opts{a}) {
     warn "plotting target $tar...\n";
     my $gv = $parser->plot(
         $tar,
-    init_args => {
-        width => $width, height => $height,
+        init_args => {
+            width => $width, height => $height,
+            layout => $layout,
+        },
+        edge_style => {
+            $edge_len ? (len => $edge_len, color => 'red') : (),
         },
     );
-    $outfile = $opts{o} || "$tar.png";
-    $gv->as_png($outfile);
+    if ($debug || $outfile && $outfile =~ /\.dot$/i) {
+        if ($outfile) {
+            open my $out, ">$outfile" or
+                die "Can't open $outfile for writing: $!\n";
+            print $out $gv->as_debug;
+            close $out;
+            warn "$outfile generated.\n";
+        } else {
+            print $gv->as_debug;
+        }
+    } else {
+        $outfile ||= "$tar.png";
+        $gv->as_png($outfile);
+        warn "$outfile generated.\n";
+    }
 }
-warn "$outfile generated.\n";
 
 __END__
 
@@ -85,6 +115,10 @@ gvmake - A make tool that generates pretty graphs from Makefiles
 
     # specify the size of the output image:
     gvmake -s 5x8    # width is 5 inch, and height is 8 inch
+
+    # use neato rather than the default dot layout program:
+    gvmake -o foo.dot -f foo.mk -a
+    neato -o a.png -Tpng foo.dot
 
 =head1 DESCRIPTION
 

@@ -1,0 +1,24 @@
+---
+abstract: 'Draw building flowcharts from Makefiles using GraphViz'
+author:
+  - 'Agent Zhang C<< <agentzh@yahoo.cn> >>'
+build_requires:
+  File::Compare: 0
+  Test::More: 0
+distribution_type: module
+generated_by: 'Module::Install version 0.75'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.3.html
+  version: 1.3
+name: Makefile-GraphViz
+no_index:
+  directory:
+    - samples
+    - inc
+    - t
+requires:
+  GraphViz: 2.02
+  Makefile::Parser: 0.210
+  perl: 5.004
+version: 0.18
