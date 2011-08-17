@@ -3,8 +3,8 @@ NAME
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.18 released on June 20,
-    2008.
+    This document describes Makefile::GraphViz 0.19 released on 18 August
+    2011.
 
 SYNOPSIS
       use Makefile::GraphViz;

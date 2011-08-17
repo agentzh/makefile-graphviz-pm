@@ -22,9 +22,9 @@ no_index:
     - t
 requires:
   GraphViz: 2.02
-  Makefile::Parser: 0.210
+  Makefile::Parser: 0.214
   perl: 5.6.1
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/agentzh/makefile-graphviz-pm
-version: 0.18
+version: 0.19

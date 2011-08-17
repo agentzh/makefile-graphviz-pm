@@ -1,5 +1,9 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.19 2011-08-18
+* updated docs with new author name, author email address, and new git repository address.
+* updated tests for Makefile::Parser 0.214.
+
 0.18 2008-06-20
 * now we use Getopt::Long rather than Getopt::Std for command line option handling and.
 * we've added two new options --debug and --edge-len (for neato).
