@@ -220,6 +220,8 @@ sub plot_all ($) {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 NAME
 
 Makefile::GraphViz - Draw building flowcharts from Makefiles using GraphViz
@@ -539,9 +541,9 @@ below is the L<Devel::Cover> report on this module test suite.
 =head1 SOURCE CONTROL
 
 For the very latest version of this module, check out the source from
-the SVN repos below:
+the Git repository below:
 
-L<https://svn.berlios.de/svnroot/repos/makefilegv>
+L<https://github.com/agentzh/makefile-graphviz-pm>
 
 There is anonymous access to all. If you'd like a commit bit, please let
 me know. :)
@@ -549,7 +551,7 @@ me know. :)
 =head1 BUGS
 
 Please report bugs or send wish-list to
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Makefile-GraphViz>.
+L<https://github.com/agentzh/makefile-graphviz-pm/issues>.
 
 =head1 SEE ALSO
 
@@ -557,11 +559,11 @@ L<gvmake>, L<GraphViz>, L<Makefile::Parser>.
 
 =head1 AUTHOR
 
-Agent Zhang C<< <agentzh@yahoo.cn> >>
+Zhang "agentzh" Yichun (章亦春) C<< <agentzh@gmail.com> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2005-2008 by Agent Zhang.
+Copyright (c) 2005-2011 by Zhang "agentzh" Yichun (章亦春).
 
 This library is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself, namely,

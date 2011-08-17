@@ -11,7 +11,7 @@
 #   MakeMaker Parameters:
 
 #     ABSTRACT => q[Plot the Detailed Structure of Makefiles Using GraphViz]
-#     AUTHOR => q[Agent Zhang <agent2002@126.com>]
+#     AUTHOR => q[Zhang "agentzh" Yichun <agent2002@126.com>]
 #     DIR => []
 #     DISTNAME => q[Makefile-GraphViz]
 #     NAME => q[Makefile::GraphViz]
@@ -765,7 +765,7 @@ ppd:
 	$(NOECHO) $(ECHO) "<SOFTPKG NAME=\"$(DISTNAME)\" VERSION=\"0,02,0,0\">" > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) "    <TITLE>$(DISTNAME)</TITLE>" >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) "    <ABSTRACT>Plot the Detailed Structure of Makefiles Using GraphViz</ABSTRACT>" >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) "    <AUTHOR>Agent Zhang &lt;agent2002@126.com&gt;</AUTHOR>" >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) "    <AUTHOR>Zhang "agentzh" Yichun &lt;agent2002@126.com&gt;</AUTHOR>" >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) "    <IMPLEMENTATION>" >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) "        <DEPENDENCY NAME=\"File-Compare\" VERSION=\"0,0,0,0\" />" >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) "        <DEPENDENCY NAME=\"GraphViz\" VERSION=\"0,0,0,0\" />" >> $(DISTNAME).ppd

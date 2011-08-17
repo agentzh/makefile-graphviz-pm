@@ -1,7 +1,7 @@
 ---
 abstract: 'Draw building flowcharts from Makefiles using GraphViz'
 author:
-  - 'Agent Zhang C<< <agentzh@yahoo.cn> >>'
+  - 'Zhang "agentzh" Yichun C<< <agentzh@gmail.com> >>'
 build_requires:
   File::Compare: 0
   Test::More: 0

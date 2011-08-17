@@ -267,10 +267,10 @@ SEE ALSO
     gvmake, GraphViz, Makefile::Parser.
 
 AUTHOR
-    Agent Zhang "<agentzh@yahoo.cn>"
+    Zhang "agentzh" Yichun "<agentzh@gmail.com>"
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2005-2008 by Agent Zhang.
+    Copyright (C) 2005-2008 by Zhang "agentzh" Yichun.
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

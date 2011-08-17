@@ -174,11 +174,11 @@ L<Makefile::GraphViz>, L<Makefile::Parser>, L<plmake>.
 
 =head1 AUTHOR
 
-Agent Zhang, E<lt>agentzh@gmail.comE<gt>
+Zhang "agentzh" Yichun, E<lt>agentzh@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005, 2006, 2007 by Agent Zhang. All rights reserved.
+Copyright (C) 2005, 2006, 2007 by Zhang "agentzh" Yichun. All rights reserved.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
