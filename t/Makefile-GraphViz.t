@@ -66,6 +66,7 @@ isa_ok $gv, 'GraphViz';
 $outfile = 't/install.dot';
 ok $gv->as_canon($outfile);
 is fcmp($outfile, "t/~install.dot"), 0, $outfile;
+#exit;
 unlink $outfile if !$debug;
 
 $gv = $parser->plot(
@@ -92,6 +93,7 @@ isa_ok $gv, 'GraphViz';
 $outfile = 't/install2.dot';
 ok $gv->as_canon($outfile);
 is fcmp($outfile, "t/~install2.dot"), 0;
+#exit
 unlink $outfile if !$debug;
 
 $parser->parse('t/Makefile3');

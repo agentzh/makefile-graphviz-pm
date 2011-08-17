@@ -252,27 +252,26 @@ CODE COVERAGE
 
 SOURCE CONTROL
     For the very latest version of this module, check out the source from
-    the SVN repos below:
+    the Git repository below:
 
-    <https://svn.berlios.de/svnroot/repos/makefilegv>
+    <https://github.com/agentzh/makefile-graphviz-pm>
 
     There is anonymous access to all. If you'd like a commit bit, please let
     me know. :)
 
 BUGS
     Please report bugs or send wish-list to
-    <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Makefile-GraphViz>.
+    <https://github.com/agentzh/makefile-graphviz-pm/issues>.
 
 SEE ALSO
     gvmake, GraphViz, Makefile::Parser.
 
 AUTHOR
-    Zhang "agentzh" Yichun "<agentzh@gmail.com>"
+    Zhang "agentzh" Yichun (章亦春) "<agentzh@gmail.com>"
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2005-2008 by Zhang "agentzh" Yichun.
+    Copyright (c) 2005-2011 by Zhang "agentzh" Yichun (章亦春).
 
     This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself, namely, the Artistic or GPL
-    license.
+    under the same terms as Perl itself.
 

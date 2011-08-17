@@ -1,5 +1,4 @@
 [^/]+\.png$
-[^/]+\.dot$
 [^/]+\.tmp$
 fast.*\.yml$
 ^a\.yml$
@@ -13,10 +12,13 @@ fast.*\.yml$
 \.old$
 \.bak$
 ^cover_db
-'
+^'$
 ^backup
 bin/.*\.dat
 ^t/cover-
 \.tar\.gz$
 ^\.git
-t/Makefile6.dot
+^t/Makefile6.dot$
+\.swp$
+^blib
+^Makefile-GraphViz-\d+\.\d+

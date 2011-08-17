@@ -565,7 +565,6 @@ Zhang "agentzh" Yichun (章亦春) C<< <agentzh@gmail.com> >>
 
 Copyright (c) 2005-2011 by Zhang "agentzh" Yichun (章亦春).
 
-This library is free software; you can redistribute it
-and/or modify it under the same terms as Perl itself, namely,
-the Artistic or GPL license.
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
