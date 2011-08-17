@@ -18,4 +18,5 @@ fast.*\.yml$
 bin/.*\.dat
 ^t/cover-
 \.tar\.gz$
+t/Makefile6.dot
 

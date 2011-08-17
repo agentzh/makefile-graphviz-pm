@@ -8,7 +8,6 @@ inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
-inc/Module/Install/Scripts.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Makefile/GraphViz.pm
@@ -27,6 +26,9 @@ t/Makefile2
 t/Makefile3
 t/Makefile4
 t/Makefile5
+t/Makefile6
+t/gvmake.t
+t/~Makefile6.dot
 t/plot_all.t
 t/pod-coverage.t
 t/pod.t

@@ -1,5 +1,9 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.18 2008-06-20
+* now we use Getopt::Long rather than Getopt::Std for command line option handling and.
+* we've added two new options --debug and --edge-len (for neato).
+
 0.17 2008-03-16
 * added support for double-colon rules.
 * now we require Makefile::Parser for support of double-colon rules

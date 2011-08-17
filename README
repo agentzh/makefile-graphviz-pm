@@ -3,7 +3,7 @@ NAME
     GraphViz
 
 VERSION
-    This document describes Makefile::GraphViz 0.17 released on March 16,
+    This document describes Makefile::GraphViz 0.18 released on June 20,
     2008.
 
 SYNOPSIS
@@ -270,8 +270,9 @@ AUTHOR
     Agent Zhang "<agentzh@yahoo.cn>"
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2005-2008 by Agent Zhang.
+    Copyright (c) 2005-2008 by Agent Zhang.
 
     This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+    under the same terms as Perl itself, namely, the Artistic or GPL
+    license.
 
