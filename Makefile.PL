@@ -5,7 +5,7 @@ use inc::Module::Install;
 my $gvmake = "script/gvmake";
 
 name            ('Makefile-GraphViz');
-perl_version    ('5.004');
+perl_version    ('5.006001');
 all_from        ('lib/Makefile/GraphViz.pm');
 
 #my $version = version();
