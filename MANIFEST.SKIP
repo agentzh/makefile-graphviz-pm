@@ -19,3 +19,4 @@ bin/.*\.dat
 ^t/cover-
 \.tar\.gz$
 ^\.git
+t/Makefile6.dot
