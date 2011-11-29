@@ -64,9 +64,11 @@ if ($make_all) {
             width => $width, height => $height,
             layout => $layout,
         },
-        edge_style => {
-            $edge_len ? (len => $edge_len, color => 'red') : (),
-        },
+        $edge_len ?
+            (edge_style => {
+                 len => $edge_len,
+                 color => 'red',
+            }) : (),
     );
     if ($debug || $outfile && $outfile =~ /\.dot$/i) {
         if ($outfile) {

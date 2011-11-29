@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 use File::Compare;
 #use Test::LongString;
 
@@ -28,6 +28,8 @@ _EOC_
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6 --edge-len 2 -o t/Makefile6.dot"), 0;
 is fcmp('t/Makefile6.dot', 't/~Makefile6.dot'), 0;
+
+is system("$^X -Ilib script/gvmake -f t/Makefile6"), 0;
 
 sub fcmp {
     return File::Compare::compare_text(
