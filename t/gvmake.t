@@ -30,6 +30,8 @@ is system("$^X -Ilib script/gvmake -f t/Makefile6 --edge-len 2 -o t/Makefile6.do
 is fcmp('t/Makefile6.dot', 't/~Makefile6.dot'), 0;
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6"), 0;
+unlink "blog.agentzh.org.png";
+unlink "test.png";
 
 sub fcmp {
     return File::Compare::compare_text(
