@@ -68,6 +68,10 @@ sub _trim_cmd ($) {
 sub _find ($@) {
     my $elem = shift;
     foreach (@_) {
+        if (ref $_) {
+            return 1 if $elem =~ $_;
+        }
+
         return 1 if $elem eq $_;
     }
     return undef;

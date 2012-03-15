@@ -36,7 +36,7 @@ $gv = $parser->plot(
     exclude  => [qw(
         all hex2bin.exe exe2hex.pl bin2asm.pl
         asm2ast.pl ast2hex.pl cod2ast.pl
-    )],
+    ), qr/hello/],
     end_with => [qw(pat_cover.ast pat_cover)],
     normal_nodes => ['pat_cover.ast'],
     vir_nodes => ['pat_cover'],
