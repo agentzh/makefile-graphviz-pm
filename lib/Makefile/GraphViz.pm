@@ -127,6 +127,14 @@ sub plot ($$@) {
     my $trim_mode = $opts{trim_mode};
     #warn "TRIM MODE: $trim_mode\n";
 
+    # process the ``node_trim_fct'' option:
+    $val = $opts{node_trim_fct};
+    my $node_trim_fct = ($val and ref $val) ? $val : \&_trim_path;
+
+    # process the ``cmd_trim_fct'' option:
+    $val = $opts{cmd_trim_fct};
+    my $cmd_trim_fct = ($val and ref $val) ? $val : \&_trim_cmd;
+
     # process the ``end_with'' option:
     $val = $opts{end_with};
     my @end_with = ($val and ref $val) ? @$val : ();
@@ -160,7 +168,7 @@ sub plot ($$@) {
     my @roots = ($root_name and ref $root_name) ?
         $root_name : ($self->target($root_name));
 
-    my $short_name = _trim_path($root_name);
+    my $short_name = $node_trim_fct->($root_name);
     if ($normal_nodes{$root_name}) {
         $is_virtual = 0;
     } elsif ($vir_nodes{$root_name} or @roots and !$roots[0]->commands) {
