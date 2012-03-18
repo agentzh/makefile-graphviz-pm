@@ -209,7 +209,7 @@ sub plot ($$@) {
         my @prereqs = $root->prereqs;
         foreach (@prereqs) {
             #warn "$_\n";
-            next if (_find($_, @exclude) and !_find($_, @no_exclude));
+            next if $_ eq "|" or (_find($_, @exclude) and !_find($_, @no_exclude));
             $gv->add_edge(
                 $_ => $lower_node,
                 $is_virtual ? (style => 'dashed') : ());
