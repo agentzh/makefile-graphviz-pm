@@ -24,6 +24,7 @@ my %NormalNodeStyle =
     shape => 'box',
     style => 'filled',
     fillcolor => '#f5f694',
+    fontsize => 10,
 );
 
 my %EdgeStyle =
@@ -33,9 +34,11 @@ my %EdgeStyle =
 
 my %CmdStyle =
 (
-    shape => 'ellipse',
+    shape => 'note',
     style => 'filled',
-    fillcolor => '#c7f77c',
+    fillcolor => '#dddddd',
+    fontname => 'Monospace',
+    fontsize => 8,
 );
 
 my %InitArgs = (
