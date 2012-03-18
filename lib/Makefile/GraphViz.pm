@@ -196,8 +196,8 @@ sub plot ($$@) {
         my @cmds = $root->commands;
         if (!$trim_mode and @cmds) {
             $lower_node = _gen_id();
-            my $cmds = join("\n", map { _trim_cmd($_); } @cmds);
-            $gv->add_node($lower_node, label => $cmds, %cmd_style);
+            my $cmds = join("\\l", map { $cmd_trim_fct->($_); } @cmds);
+            $gv->add_node($lower_node, label => $cmds . "\\l", %cmd_style);
             $gv->add_edge(
                 $lower_node => $root_name,
                 $is_virtual ? (style => 'dashed') : ()
