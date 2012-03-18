@@ -44,6 +44,7 @@ my %CmdStyle =
 my %InitArgs = (
     layout => 'dot',
     ratio => 'auto',
+    rankdir => 1,
     node => \%NormalNodeStyle,
     edge => \%EdgeStyle,
 );
@@ -74,7 +75,6 @@ sub _find ($@) {
         if (ref $_) {
             return 1 if $elem =~ $_;
         }
-
         return 1 if $elem eq $_;
     }
     return undef;
