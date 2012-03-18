@@ -131,11 +131,19 @@ sub plot ($$@) {
     $val = $opts{end_with};
     my @end_with = ($val and ref $val) ? @$val : ();
 
+    # process the ``no_end_with'' option:
+    $val = $opts{no_end_with};
+    my @no_end_with = ($val and ref $val) ? @$val : ();
+
     # process the ``exclude'' option:
     $val = $opts{exclude};
     my @exclude = ($val and ref $val) ? @$val : ();
 
-    return $gv if _find($root_name, @exclude);
+    # process the ``no_exclude'' option:
+    $val = $opts{no_exclude};
+    my @no_exclude = ($val and ref $val) ? @$val : ();
+
+    return $gv if _find($root_name, @exclude) and !_find($root_name, @no_exclude);
 
     if (!$gv) {
         $gv = GraphViz->new(%init_args);
@@ -159,7 +167,7 @@ sub plot ($$@) {
         $is_virtual = 1;
     }
 
-    if (!@roots or _find($root_name, @end_with)) {
+    if (!@roots or _find($root_name, @end_with) and !_find($root_name, @no_end_with)) {
         $gv->add_node(
             $root_name,
             label => $short_name,
@@ -201,7 +209,7 @@ sub plot ($$@) {
         my @prereqs = $root->prereqs;
         foreach (@prereqs) {
             #warn "$_\n";
-            next if _find($_, @exclude);
+            next if (_find($_, @exclude) and !_find($_, @no_exclude));
             $gv->add_edge(
                 $_ => $lower_node,
                 $is_virtual ? (style => 'dashed') : ());
