@@ -14,17 +14,17 @@ $Makefile::Parser::Strict = 0;
 
 our $IDCounter = 0;
 
-my %VirNodeStyle =
-(
-    shape => 'plaintext',
-);
-
 my %NormalNodeStyle =
 (
     shape => 'box',
     style => 'filled',
     fillcolor => '#f5f694',
     fontsize => 10,
+);
+
+my %VirNodeStyle =
+(
+    shape => 'plaintext',
 );
 
 my %EdgeStyle =
