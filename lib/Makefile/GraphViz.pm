@@ -57,17 +57,17 @@ sub _gen_id () {
 }
 
 sub _trim_path ($) {
-    my $s = shift;
-    $s =~ s/.+(.{5}[\\\/].*)$/...$1/o;
-    $s =~ s/\\/\\\\/g;
-    return $s;
+    my $path = shift;
+    $path =~ s/.+(.{5}[\\\/].*)$/...$1/o;
+    $path =~ s/\\/\\\\/g;
+    return $path;
 }
 
 sub _trim_cmd ($) {
-    my $s = shift;
-    $s =~ s/((?:\S+\s+){2})\S.*/$1.../o;
-    $s =~ s/\\/\\\\/g;
-    return $s;
+    my $cmd = shift;
+    $cmd =~ s/((?:\S+\s+){2})\S.*/$1.../o;
+    $cmd =~ s/\\/\\\\/g;
+    return $cmd;
 }
 
 sub _find ($@) {
