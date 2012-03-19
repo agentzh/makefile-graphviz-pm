@@ -28,6 +28,17 @@ my %VirNodeStyle =
     shape => 'plaintext',
 );
 
+my %NormalEndNodeStyle =
+(
+    fillcolor => '#ccff99',
+);
+
+my %VirEndNodeStyle =
+(
+    shape => 'plaintext',
+    fillcolor => '#ccff99',
+);
+
 my %EdgeStyle =
 (
     color => 'red',
@@ -126,6 +137,14 @@ sub plot ($$@) {
     $val = $opts{vir_node_style};
     my %vir_node_style = ($val and ref $val) ? %$val : %VirNodeStyle;
 
+    # process the ``normal_end_node_style'' option:
+    $val = $opts{normal_end_node_style};
+    my %normal_end_node_style = ($val and ref $val) ? %$val : %NormalEndNodeStyle;
+
+    # process the ``vir_end_node_style'' option:
+    $val = $opts{vir_end_node_style};
+    my %vir_end_node_style = ($val and ref $val) ? %$val : %VirEndNodeStyle;
+
     # process the ``cmd_style'' option:
     $val = $opts{cmd_style};
     my %cmd_style = ($val and ref $val) ? %$val : %CmdStyle;
@@ -190,8 +209,8 @@ sub plot ($$@) {
         $gv->add_node(
             $root_name,
             label => "[" . $short_name . "]",
-            $is_virtual ? %vir_node_style : ()
             URL => $url_fct->($root_name),
+            $is_virtual ? %vir_end_node_style : %normal_end_node_style
         );
         return $gv;
     }
