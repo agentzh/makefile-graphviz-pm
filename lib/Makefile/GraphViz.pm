@@ -70,6 +70,12 @@ sub _trim_cmd ($) {
     return $cmd;
 }
 
+sub _url ($) {
+    my $url = shift;
+    $url =~ s/[\/\\:. \t]+/_/g;
+    return $url;
+}
+
 sub _find ($@) {
     my $elem = shift;
     foreach (@_) {
@@ -144,6 +150,10 @@ sub plot ($$@) {
     $val = $opts{no_end_with};
     my @no_end_with = ($val and ref $val) ? @$val : ();
 
+    # process the ``url_fct'' option:
+    $val = $opts{url_fct};
+    my $url_fct = ($val and ref $val) ? $val : \&_url;
+
     # process the ``exclude'' option:
     $val = $opts{exclude};
     my @exclude = ($val and ref $val) ? @$val : ();
@@ -181,6 +191,7 @@ sub plot ($$@) {
             $root_name,
             label => "[" . $short_name . "]",
             $is_virtual ? %vir_node_style : ()
+            URL => $url_fct->($root_name),
         );
         return $gv;
     }
