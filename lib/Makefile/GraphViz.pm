@@ -18,7 +18,8 @@ my %NormalNodeStyle =
 (
     shape => 'box',
     style => 'filled',
-    fillcolor => '#f5f694',
+    fillcolor => '#ffff99',
+    fontname => 'Arial',
     fontsize => 10,
 );
 
