@@ -172,6 +172,8 @@ sub plot ($$@) {
     # process the ``url_fct'' option:
     $val = $opts{url_fct};
     my $url_fct = ($val and ref $val) ? $val : \&_url;
+    # Set graph name (useful when creating image maps or PS/PDF with links)
+    $init_args{name} = qq("$root_name");
 
     # process the ``exclude'' option:
     $val = $opts{exclude};
