@@ -210,7 +210,7 @@ sub plot ($$@) {
     if (!@roots or _find($root_name, @end_with) and !_find($root_name, @no_end_with)) {
         $gv->add_node(
             $root_name,
-            label => "[" . $short_name . "]",
+            label => $short_name,
             URL => $url_fct->($root_name),
             $is_virtual ? %vir_end_node_style : %normal_end_node_style
         );
