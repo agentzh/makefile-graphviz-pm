@@ -28,6 +28,7 @@ _EOC_
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6 --edge-len 2 -o t/Makefile6.dot"), 0;
 is fcmp('t/Makefile6.dot', 't/~Makefile6.dot'), 0;
+unlink "t/Makefile6.dot";
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6"), 0;
 unlink "blog.agentzh.org.png";
