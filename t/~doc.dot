@@ -1,21 +1,21 @@
-digraph test {
-	graph [ratio=auto];
-	node [label="\N", fillcolor="#f5f694", shape=box, style=filled];
+digraph "t\pat_cover.ast.asm" {
+	graph [rankdir=LR, ratio=auto];
+	node [label="\N", fillcolor="#ffff99", fontname=Arial, fontsize=10, shape=box, style=filled];
 	edge [color=red];
 	node1 [label="t\\pat_cover.ast.asm"];
-	node2 [label="perl bin2asm.pl ...", fillcolor="#c7f77c", shape=ellipse];
-	node3 [label="bin2asm.pl"];
+	node2 [label="perl bin2asm.pl ...\l", fillcolor="#dddddd", fontname=Monospace, fontsize=8, shape=note];
+	node3 [label="bin2asm.pl", fillcolor="#ccff99", URL=bin2asm_pl];
 	node4 [label="t\\pat_cover.ast.bin"];
-	node5 [label="hex2bin.exe t\\pat_cover.ast.hex ...", fillcolor="#c7f77c", shape=ellipse];
+	node5 [label="hex2bin.exe t\\pat_cover.ast.hex ...\l", fillcolor="#dddddd", fontname=Monospace, fontsize=8, shape=note];
 	node6 [label="hex2bin.exe"];
-	node7 [label="cl /nologo ...", fillcolor="#c7f77c", shape=ellipse];
-	node8 [label="hex2bin.c"];
+	node7 [label="cl /nologo ...\l", fillcolor="#dddddd", fontname=Monospace, fontsize=8, shape=note];
+	node8 [label="hex2bin.c", fillcolor="#ccff99", URL=hex2bin_c];
 	node9 [label="t\\pat_cover.ast.hex"];
-	node10 [label="perl ast2hex.pl ...", fillcolor="#c7f77c", shape=ellipse];
-	node11 [label="ast2hex.pl"];
+	node10 [label="perl ast2hex.pl ...\l", fillcolor="#dddddd", fontname=Monospace, fontsize=8, shape=note];
+	node11 [label="ast2hex.pl", fillcolor="#ccff99", URL=ast2hex_pl];
 	node12 [label="pat_cover.ast"];
 	pat_cover [label=pat_cover, shape=plaintext];
-	node13 [label="perl pat_cover.pl ...", fillcolor="#c7f77c", shape=ellipse];
+	node13 [label="perl pat_cover.pl ...\l", fillcolor="#dddddd", fontname=Monospace, fontsize=8, shape=note];
 	node2 -> node1;
 	node5 -> node4;
 	node7 -> node6;

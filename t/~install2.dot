@@ -1,5 +1,5 @@
-digraph test {
-	graph [ratio=auto];
+digraph install {
+	graph [rankdir=LR, ratio=auto];
 	node [label="\N", fillcolor=red, shape=circle, style=filled];
 	edge [color=seagreen, style=dashed];
 	install [label=install];
@@ -9,9 +9,9 @@ digraph test {
 	pure_all [label=pure_all, fillcolor=yellow, shape=diamond];
 	config [label=config, fillcolor=yellow, shape=diamond];
 	Makefile [label=Makefile];
-	node1 [label="Makefile.PL"];
-	node2 [label="...multi/Config.pm"];
-	node3 [label=".../CORE/config.h"];
+	node1 [label="Makefile.PL", fillcolor="#ccff99", URL=Makefile_PL];
+	node2 [label="...multi/Config.pm", fillcolor="#ccff99", URL="_usr_lib64_perl5_5_10_1_x86_64-linux-thread-multi_Config_pm"];
+	node3 [label=".../CORE/config.h", fillcolor="#ccff99", URL="_usr_lib64_perl5_5_10_1_x86_64-linux-thread-multi_CORE_config_h"];
 	blibdirs [label=blibdirs];
 	node4 [label="...efile/.exists"];
 	node5 [label=".../arch/.exists"];
@@ -23,13 +23,13 @@ digraph test {
 	node11 [label=".../man3/.exists"];
 	installdeps [label=installdeps];
 	pm_to_blib [label=pm_to_blib];
-	node12 [label="...efile/GraphViz.pm"];
+	node12 [label="...efile/GraphViz.pm", fillcolor="#ccff99", URL=lib_Makefile_GraphViz_pm];
 	subdirs [label=subdirs];
-	node13 [label="$(MYEXTLIB)"];
+	node13 [label="$(MYEXTLIB)", fillcolor="#ccff99", URL="$(MYEXTLIB)"];
 	linkext [label=linkext];
 	dynamic [label=dynamic];
 	node14 [label="...cript/gvmake"];
-	node15 [label="...cript/gvmake"];
+	node15 [label="...cript/gvmake", fillcolor="#ccff99", URL=script_gvmake];
 	manifypods [label=manifypods];
 	doc_install [label=doc_install];
 	doc_site_install [label=doc_site_install];
