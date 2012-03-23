@@ -9,3 +9,4 @@ Makefile.old
 t/Makefile6.dot
 t/*.png
 Makefile-GraphViz-*
+MYMETA.*
