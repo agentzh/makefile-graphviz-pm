@@ -169,6 +169,10 @@ sub plot ($$@) {
     $val = $opts{no_end_with};
     my @no_end_with = ($val and ref $val) ? @$val : ();
 
+    # process the ``end_with_callback'' option:
+    $val = $opts{end_with_callback};
+    my $end_with_callback = ($val and ref $val) ? $val : undef;
+
     # process the ``url_fct'' option:
     $val = $opts{url_fct};
     my $url_fct = ($val and ref $val) ? $val : \&_url;
@@ -214,6 +218,7 @@ sub plot ($$@) {
             URL => $url_fct->($root_name),
             $is_virtual ? %vir_end_node_style : %normal_end_node_style
         );
+        $end_with_callback->($root_name) if $end_with_callback;
         return $gv;
     }
     #my $short_name = $root_name;
