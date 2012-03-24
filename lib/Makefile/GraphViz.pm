@@ -93,13 +93,17 @@ sub _find ($@) {
     return undef;
 }
 
+# Plot graph with single root target
 sub plot ($$@) {
 
     # ==================================
     # == Unnamed command line options ==
     # ==================================
 
+    # Self
     my $self = shift;
+
+    # Main/root target
     my $root_name = shift;
 
     # ================================
@@ -110,22 +114,20 @@ sub plot ($$@) {
 
     my $gv = $opts{gv};
 
-    my $val = $opts{vir_nodes};
-    my @vir_nodes = @$val if $val and ref $val;
-    my %vir_nodes;
-    map { $vir_nodes{$_} = 1 } @vir_nodes;
+    my $val = $opts{init_args};
+    my %init_args = ($val and ref $val) ? %$val : %InitArgs;
+    # Set graph name (useful when creating image maps or PS/PDF with links)
+    $init_args{name} = qq("$root_name");
 
     $val = $opts{normal_nodes};
     my @normal_nodes = @$val if $val and ref $val;
     my %normal_nodes;
     map { $normal_nodes{$_} = 1 } @normal_nodes;
 
-    $val = $opts{init_args};
-    my %init_args = ($val and ref $val) ? %$val : %InitArgs;
-
-    $val = $opts{edge_style};
-    my %edge_style = ($val and ref $val) ? %$val : %EdgeStyle;
-    $init_args{edge} = \%edge_style;
+    $val = $opts{vir_nodes};
+    my @vir_nodes = @$val if $val and ref $val;
+    my %vir_nodes;
+    map { $vir_nodes{$_} = 1 } @vir_nodes;
 
     $val = $opts{normal_node_style};
     my %normal_node_style = ($val and ref $val) ? %$val : %NormalNodeStyle;
@@ -142,6 +144,10 @@ sub plot ($$@) {
 
     $val = $opts{cmd_style};
     my %cmd_style = ($val and ref $val) ? %$val : %CmdStyle;
+
+    $val = $opts{edge_style};
+    my %edge_style = ($val and ref $val) ? %$val : %EdgeStyle;
+    $init_args{edge} = \%edge_style;
 
     my $trim_mode = $opts{trim_mode};
 
@@ -160,69 +166,102 @@ sub plot ($$@) {
     $val = $opts{end_with_callback};
     my $end_with_callback = ($val and ref $val) ? $val : undef;
 
-    $val = $opts{url_fct};
-    my $url_fct = ($val and ref $val) ? $val : \&_url;
-    # Set graph name (useful when creating image maps or PS/PDF with links)
-    $init_args{name} = qq("$root_name");
-
     $val = $opts{exclude};
     my @exclude = ($val and ref $val) ? @$val : ();
 
     $val = $opts{no_exclude};
     my @no_exclude = ($val and ref $val) ? @$val : ();
 
+    $val = $opts{url_fct};
+    my $url_fct = ($val and ref $val) ? $val : \&_url;
+
+    # =========================
+    # == Initialise GraphViz ==
+    # =========================
+
+    # Do nothing if root node is in exclude list
     return $gv if _find($root_name, @exclude) and !_find($root_name, @no_exclude);
 
+    # Create new graph object if necessary
     if (!$gv) {
         $gv = GraphViz->new(%init_args);
         %Nodes = ();
     }
 
+    # ===========================================
+    # == Create graph, starting from root node ==
+    # ===========================================
+
+    # Assume we have a normal node
     my $is_virtual = 0;
+    # Do nothing if node has already been processed
     if ($Nodes{$root_name}) {
         return $gv;
     }
+    # Add node to processed node list
     $Nodes{$root_name} = 1;
 
-    my @roots = ($root_name and ref $root_name) ?
-        $root_name : ($self->target($root_name));
+    # Initialise root node list
+    # TODO: Why is this an array? Should it not be a simple string?
+    my @roots = ($root_name and ref $root_name)
+            ? $root_name
+            : ($self->target($root_name));
 
+    # Trim node name
     my $short_name = $node_trim_fct->($root_name);
+
+    # Determine node type (normal or virtual)
     if ($normal_nodes{$root_name}) {
+        # Node is member of normal nodes list -> normal
         $is_virtual = 0;
     } elsif ($vir_nodes{$root_name} or @roots and !$roots[0]->commands) {
+        # Node is member of virtual nodes list or has no commands -> virtual
         $is_virtual = 1;
     }
 
+    # Determine node subtype (end node or regular node)
     if (!@roots or _find($root_name, @end_with) and !_find($root_name, @no_end_with)) {
+        # Node is member of end node list and not member of exception list -> end node
         $gv->add_node(
             $root_name,
-            label => $short_name,
-            URL => $url_fct->($root_name),
+            label       => $short_name,
+            # Add URL because the user might want to create a set of interlinked
+            # graphs with each end node pointing to its sub-graph
+            URL         => $url_fct->($root_name),
             $is_virtual ? %vir_end_node_style : %normal_end_node_style
         );
+        # Call user-defined hook in case she wants to do something with end nodes,
+        # such as collect their names and then recursively plot sub-graphs.
         $end_with_callback->($root_name) if $end_with_callback;
+        # Stop processing here (thus the name "end node")
         return $gv;
     }
 
     my $i = 0;
+    # Loop through root node list
+    # TODO: Why is this an array? Should it not be a simple string?
     for my $root (@roots) {
+        # Add node for target
         $gv->add_node(
             $root_name,
-            label => $short_name,
+            label       => $short_name,
             $is_virtual ? %vir_node_style : ()
         );
 
+        # Add command node displaying target's recipe if trim_mode is false
+        # and recipe exists. BTW, '\l' left-justifies each single line.
         my $lower_node;
         my @cmds = $root->commands;
         if (!$trim_mode and @cmds) {
+            # Command node gets an auto-created ID as its name
             $lower_node = _gen_id();
             my $cmds = join("\\l", map { $cmd_trim_fct->($_); } @cmds);
             $gv->add_node(
                 $lower_node,
-                label => $cmds . "\\l",
+                label       => $cmds . "\\l",
                 %cmd_style
             );
+            # The recipe points to its target (dashed line if virtual target)
             $gv->add_edge(
                 $lower_node => $root_name,
                 $is_virtual ? (style => 'dashed') : ()
@@ -231,24 +270,26 @@ sub plot ($$@) {
             $lower_node = $root_name;
         }
 
+        # Get target's prerequisites and loop through them
         my @prereqs = $root->prereqs;
         foreach (@prereqs) {
-            #warn "$_\n";
+            # Ignore prerequisites on exclude list or named "|"
             next if $_ eq "|" or (_find($_, @exclude) and !_find($_, @no_exclude));
+            # The prerequisite points to its dependent target (dashed line if virtual target)
             $gv->add_edge(
-                $_ => $lower_node,
+                $_          => $lower_node,
                 $is_virtual ? (style => 'dashed') : ());
-            #warn "$_ ++++++++++++++++++++\n";
+            # Recurse into 'plot' for prerequisite
             $self->plot($_, gv => $gv, @_);
         }
-        #warn "END\n";
-        #warn "GraphViz: $gv\n";
     } continue { $i++ }
     return $gv;
 }
 
+# Plot graph with multiple (all) root targets
 sub plot_all ($) {
     my $self = shift;
+    # TODO: Should we not also apply $opts{init_args} here?
     my $gv = GraphViz->new(%InitArgs);
     %Nodes = ();
     for my $target ($self->roots) {
