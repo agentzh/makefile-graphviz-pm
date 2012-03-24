@@ -13,51 +13,47 @@ $Makefile::Parser::Strict = 0;
 
 our $IDCounter = 0;
 
-my %NormalNodeStyle =
-(
-    shape => 'box',
-    style => 'filled',
+# ================================
+# == Default values & functions ==
+# ================================
+
+my %NormalNodeStyle = (
+    shape     => 'box',
+    style     => 'filled',
     fillcolor => '#ffff99',
-    fontname => 'Arial',
-    fontsize => 10,
+    fontname  => 'Arial',
+    fontsize  => 10,
 );
 
-my %VirNodeStyle =
-(
-    shape => 'plaintext',
+my %VirNodeStyle = (
+    shape     => 'plaintext'
 );
 
-my %NormalEndNodeStyle =
-(
-    fillcolor => '#ccff99',
+my %NormalEndNodeStyle = (
+    fillcolor => '#ccff99'
 );
 
-my %VirEndNodeStyle =
-(
-    shape => 'plaintext',
-    fillcolor => '#ccff99',
+my %VirEndNodeStyle = (
+    shape     => 'plaintext',
+    fillcolor => '#ccff99'
 );
 
-my %EdgeStyle =
-(
-    color => 'red',
-);
-
-my %CmdStyle =
-(
-    shape => 'note',
-    style => 'filled',
+my %CmdStyle = (
+    shape     => 'note',
+    style     => 'filled',
     fillcolor => '#dddddd',
-    fontname => 'Monospace',
-    fontsize => 8,
+    fontname  => 'Monospace',
+    fontsize  => 8,
 );
+
+my %EdgeStyle = ( color => 'red' );
 
 my %InitArgs = (
-    layout => 'dot',
-    ratio => 'auto',
-    rankdir => 1,
-    node => \%NormalNodeStyle,
-    edge => \%EdgeStyle,
+    layout    => 'dot',
+    ratio     => 'auto',
+    rankdir   => 1,
+    node      => \%NormalNodeStyle,
+    edge      => \%EdgeStyle,
 );
 
 our %Nodes;
