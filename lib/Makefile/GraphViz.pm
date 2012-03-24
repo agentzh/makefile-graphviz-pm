@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 
-#use Smart::Comments;
 use GraphViz;
 use base 'Makefile::Parser';
 
@@ -99,91 +98,80 @@ sub _find ($@) {
 }
 
 sub plot ($$@) {
+
+    # ==================================
+    # == Unnamed command line options ==
+    # ==================================
+
     my $self = shift;
     my $root_name = shift;
-    my %opts = @_;
-    #warn "@_\n";
 
-    # process the ``gv'' option:
+    # ================================
+    # == Named command line options ==
+    # ================================
+
+    my %opts = @_;
+
     my $gv = $opts{gv};
 
-    # process the ``vir_nodes'' option:
     my $val = $opts{vir_nodes};
     my @vir_nodes = @$val if $val and ref $val;
     my %vir_nodes;
     map { $vir_nodes{$_} = 1 } @vir_nodes;
 
-    # process the ``normal_nodes'' option:
     $val = $opts{normal_nodes};
     my @normal_nodes = @$val if $val and ref $val;
     my %normal_nodes;
     map { $normal_nodes{$_} = 1 } @normal_nodes;
 
-    # process the ``init_args'' option:
     $val = $opts{init_args};
     my %init_args = ($val and ref $val) ? %$val : %InitArgs;
 
-    # process the ``edge_style'' option:
     $val = $opts{edge_style};
     my %edge_style = ($val and ref $val) ? %$val : %EdgeStyle;
     $init_args{edge} = \%edge_style;
 
-    # process the ``normal_node_style'' option:
     $val = $opts{normal_node_style};
     my %normal_node_style = ($val and ref $val) ? %$val : %NormalNodeStyle;
     $init_args{node} = \%normal_node_style;
 
-    # process the ``vir_node_style'' option:
     $val = $opts{vir_node_style};
     my %vir_node_style = ($val and ref $val) ? %$val : %VirNodeStyle;
 
-    # process the ``normal_end_node_style'' option:
     $val = $opts{normal_end_node_style};
     my %normal_end_node_style = ($val and ref $val) ? %$val : %NormalEndNodeStyle;
 
-    # process the ``vir_end_node_style'' option:
     $val = $opts{vir_end_node_style};
     my %vir_end_node_style = ($val and ref $val) ? %$val : %VirEndNodeStyle;
 
-    # process the ``cmd_style'' option:
     $val = $opts{cmd_style};
     my %cmd_style = ($val and ref $val) ? %$val : %CmdStyle;
 
-    # process the ``trim_mode'' option:
     my $trim_mode = $opts{trim_mode};
-    #warn "TRIM MODE: $trim_mode\n";
 
-    # process the ``node_trim_fct'' option:
     $val = $opts{node_trim_fct};
     my $node_trim_fct = ($val and ref $val) ? $val : \&_trim_path;
 
-    # process the ``cmd_trim_fct'' option:
     $val = $opts{cmd_trim_fct};
     my $cmd_trim_fct = ($val and ref $val) ? $val : \&_trim_cmd;
 
-    # process the ``end_with'' option:
     $val = $opts{end_with};
     my @end_with = ($val and ref $val) ? @$val : ();
 
-    # process the ``no_end_with'' option:
     $val = $opts{no_end_with};
     my @no_end_with = ($val and ref $val) ? @$val : ();
 
-    # process the ``end_with_callback'' option:
     $val = $opts{end_with_callback};
     my $end_with_callback = ($val and ref $val) ? $val : undef;
 
-    # process the ``url_fct'' option:
     $val = $opts{url_fct};
     my $url_fct = ($val and ref $val) ? $val : \&_url;
     # Set graph name (useful when creating image maps or PS/PDF with links)
     $init_args{name} = qq("$root_name");
 
-    # process the ``exclude'' option:
     $val = $opts{exclude};
     my @exclude = ($val and ref $val) ? @$val : ();
 
-    # process the ``no_exclude'' option:
     $val = $opts{no_exclude};
     my @no_exclude = ($val and ref $val) ? @$val : ();
 
@@ -199,7 +187,6 @@ sub plot ($$@) {
         return $gv;
     }
     $Nodes{$root_name} = 1;
-    #warn "GraphViz: $gv\n";
 
     my @roots = ($root_name and ref $root_name) ?
         $root_name : ($self->target($root_name));
@@ -221,23 +208,15 @@ sub plot ($$@) {
         $end_with_callback->($root_name) if $end_with_callback;
         return $gv;
     }
-    #my $short_name = $root_name;
 
     my $i = 0;
     for my $root (@roots) {
-        #warn $i, "???\n";
-        ### $root_name
-        ### $root
-        #$short_name =~ s/\\/\//g;
-        #warn $short_name, "\n";
-        #warn $short_name, "!!!!!!!!!!!!!!!!\n";
         $gv->add_node(
             $root_name,
             label => $short_name,
             $is_virtual ? %vir_node_style : ()
         );
 
-        #warn $gv;
         my $lower_node;
         my @cmds = $root->commands;
         if (!$trim_mode and @cmds) {
