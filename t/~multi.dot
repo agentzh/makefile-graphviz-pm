@@ -1,4 +1,4 @@
-digraph test {
+digraph timer {
 	graph [rankdir=LR, ratio=auto];
 	node [label="\N", fillcolor="#ffff99", fontname=Arial, fontsize=10, shape=box, style=filled];
 	edge [color=red];
