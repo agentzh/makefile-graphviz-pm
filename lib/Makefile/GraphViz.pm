@@ -111,70 +111,39 @@ sub plot ($$@) {
     # ================================
 
     my %opts = @_;
-
     my $gv = $opts{gv};
 
-    my $val = $opts{init_args};
-    my %init_args = ($val and ref $val) ? %$val : %InitArgs;
-    # Set graph name (useful when creating image maps or PS/PDF with links)
-    $init_args{name} = qq("$root_name");
+    # Helper function for initialising undefined user options with defaults
+    my $init_opts = sub {
+        my $key = shift;
+        $opts{$key} = +shift unless $opts{$key} and ref $opts{$key};
+    };
 
-    $val = $opts{normal_node_style};
-    my %normal_node_style = ($val and ref $val) ? %$val : %NormalNodeStyle;
-    $init_args{node} = \%normal_node_style;
+    $init_opts->('init_args',             \%InitArgs);
+    $init_opts->('normal_node_style',     \%NormalNodeStyle);
+    $init_opts->('vir_node_style',        \%VirNodeStyle);
+    $init_opts->('normal_end_node_style', \%NormalEndNodeStyle);
+    $init_opts->('vir_end_node_style',    \%VirEndNodeStyle);
+    $init_opts->('cmd_style',             \%CmdStyle);
+    $init_opts->('edge_style',            \%EdgeStyle);
+    $init_opts->('node_trim_fct',         \&_trim_path);
+    $init_opts->('cmd_trim_fct',          \&_trim_cmd);
+    $init_opts->('url_fct',               \&_url);
 
-    $val = $opts{vir_node_style};
-    my %vir_node_style = ($val and ref $val) ? %$val : %VirNodeStyle;
-
-    $val = $opts{normal_end_node_style};
-    my %normal_end_node_style = ($val and ref $val) ? %$val : %NormalEndNodeStyle;
-
-    $val = $opts{vir_end_node_style};
-    my %vir_end_node_style = ($val and ref $val) ? %$val : %VirEndNodeStyle;
-
-    $val = $opts{cmd_style};
-    my %cmd_style = ($val and ref $val) ? %$val : %CmdStyle;
-
-    $val = $opts{edge_style};
-    my %edge_style = ($val and ref $val) ? %$val : %EdgeStyle;
-    $init_args{edge} = \%edge_style;
-
-    my $trim_mode = $opts{trim_mode};
-
-    $val = $opts{node_trim_fct};
-    my $node_trim_fct = ($val and ref $val) ? $val : \&_trim_path;
-
-    $val = $opts{cmd_trim_fct};
-    my $cmd_trim_fct = ($val and ref $val) ? $val : \&_trim_cmd;
-
-    $val = $opts{end_with};
-    my @end_with = ($val and ref $val) ? @$val : ();
-
-    $val = $opts{no_end_with};
-    my @no_end_with = ($val and ref $val) ? @$val : ();
-
-    $val = $opts{end_with_callback};
-    my $end_with_callback = ($val and ref $val) ? $val : undef;
-
-    $val = $opts{exclude};
-    my @exclude = ($val and ref $val) ? @$val : ();
-
-    $val = $opts{no_exclude};
-    my @no_exclude = ($val and ref $val) ? @$val : ();
-
-    $val = $opts{url_fct};
-    my $url_fct = ($val and ref $val) ? $val : \&_url;
+    $opts{init_args}{name} = qq("$root_name");
+    $opts{init_args}{node} = $opts{normal_node_style};
+    $opts{init_args}{edge} = \%{$opts{edge_style}};
 
     # =========================
     # == Initialise GraphViz ==
     # =========================
 
     # Do nothing if root node is in exclude list
-    return $gv if _find($root_name, @exclude) and !_find($root_name, @no_exclude);
+    return $gv if _find($root_name, @{$opts{exclude}}) and !_find($root_name, @{$opts{no_exclude}});
 
     # Create new graph object if necessary
     if (!$gv) {
-        $gv = GraphViz->new(%init_args);
+        $gv = GraphViz->new(%{$opts{init_args}});
         %Nodes = ();
     }
 
@@ -194,11 +163,11 @@ sub plot ($$@) {
     # Initialise root node list
     # TODO: Why is this an array? Should it not be a simple string?
     my @roots = ($root_name and ref $root_name)
-            ? $root_name
-            : ($self->target($root_name));
+        ? $root_name
+        : ($self->target($root_name));
 
     # Trim node name
-    my $short_name = $node_trim_fct->($root_name);
+    my $short_name = $opts{node_trim_fct}->($root_name);
 
     # Determine node type (normal or virtual)
     if (_find($root_name, @{$opts{normal_nodes}})) {
@@ -210,19 +179,19 @@ sub plot ($$@) {
     }
 
     # Determine node subtype (end node or regular node)
-    if (!@roots or _find($root_name, @end_with) and !_find($root_name, @no_end_with)) {
+    if (!@roots or _find($root_name, @{$opts{end_with}}) and !_find($root_name, @{$opts{no_end_with}})) {
         # Node is member of end node list and not member of exception list -> end node
         $gv->add_node(
             $root_name,
             label       => $short_name,
             # Add URL because the user might want to create a set of interlinked
             # graphs with each end node pointing to its sub-graph
-            URL         => $url_fct->($root_name),
-            $is_virtual ? %vir_end_node_style : %normal_end_node_style
+            URL         => $opts{url_fct}->($root_name),
+            $is_virtual ? %{$opts{vir_end_node_style}} : %{$opts{normal_end_node_style}}
         );
         # Call user-defined hook in case she wants to do something with end nodes,
         # such as collect their names and then recursively plot sub-graphs.
-        $end_with_callback->($root_name) if $end_with_callback;
+        $opts{end_with_callback}->($root_name) if $opts{end_with_callback};
         # Stop processing here (thus the name "end node")
         return $gv;
     }
@@ -235,21 +204,21 @@ sub plot ($$@) {
         $gv->add_node(
             $root_name,
             label       => $short_name,
-            $is_virtual ? %vir_node_style : ()
+            $is_virtual ? %{$opts{vir_node_style}} : ()
         );
 
         # Add command node displaying target's recipe if trim_mode is false
         # and recipe exists. BTW, '\l' left-justifies each single line.
         my $lower_node;
         my @cmds = $root->commands;
-        if (!$trim_mode and @cmds) {
+        if (!$opts{trim_mode} and @cmds) {
             # Command node gets an auto-created ID as its name
             $lower_node = _gen_id();
-            my $cmds = join("\\l", map { $cmd_trim_fct->($_); } @cmds);
+            my $cmds = join("\\l", map { $opts{cmd_trim_fct}->($_); } @cmds);
             $gv->add_node(
                 $lower_node,
                 label       => $cmds . "\\l",
-                %cmd_style
+                %{$opts{cmd_style}}
             );
             # The recipe points to its target (dashed line if virtual target)
             $gv->add_edge(
@@ -264,7 +233,7 @@ sub plot ($$@) {
         my @prereqs = $root->prereqs;
         foreach (@prereqs) {
             # Ignore prerequisites on exclude list or named "|"
-            next if $_ eq "|" or (_find($_, @exclude) and !_find($_, @no_exclude));
+            next if $_ eq "|" or (_find($_, @{$opts{exclude}}) and !_find($_, @{$opts{no_exclude}}));
             # The prerequisite points to its dependent target (dashed line if virtual target)
             $gv->add_edge(
                 $_          => $lower_node,
