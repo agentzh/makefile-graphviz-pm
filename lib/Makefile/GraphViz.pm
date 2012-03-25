@@ -119,16 +119,6 @@ sub plot ($$@) {
     # Set graph name (useful when creating image maps or PS/PDF with links)
     $init_args{name} = qq("$root_name");
 
-    $val = $opts{normal_nodes};
-    my @normal_nodes = @$val if $val and ref $val;
-    my %normal_nodes;
-    map { $normal_nodes{$_} = 1 } @normal_nodes;
-
-    $val = $opts{vir_nodes};
-    my @vir_nodes = @$val if $val and ref $val;
-    my %vir_nodes;
-    map { $vir_nodes{$_} = 1 } @vir_nodes;
-
     $val = $opts{normal_node_style};
     my %normal_node_style = ($val and ref $val) ? %$val : %NormalNodeStyle;
     $init_args{node} = \%normal_node_style;
@@ -211,10 +201,10 @@ sub plot ($$@) {
     my $short_name = $node_trim_fct->($root_name);
 
     # Determine node type (normal or virtual)
-    if ($normal_nodes{$root_name}) {
+    if (_find($root_name, @{$opts{normal_nodes}})) {
         # Node is member of normal nodes list -> normal
         $is_virtual = 0;
-    } elsif ($vir_nodes{$root_name} or @roots and !$roots[0]->commands) {
+    } elsif (_find($root_name, @{$opts{vir_nodes}}) or @roots and !$roots[0]->commands) {
         # Node is member of virtual nodes list or has no commands -> virtual
         $is_virtual = 1;
     }
