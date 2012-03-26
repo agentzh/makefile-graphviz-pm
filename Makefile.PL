@@ -10,7 +10,7 @@ repository "http://github.com/agentzh/makefile-graphviz-pm";
 
 install_script  ("script/gvmake");
 
-requires        ('GraphViz' => '2.02');
+requires        ('GraphViz' => '2.10');
 requires        ('Makefile::Parser' => '0.215');
 
 build_requires  ('Test::More');
