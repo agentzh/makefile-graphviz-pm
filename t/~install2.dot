@@ -1,5 +1,5 @@
 digraph install {
-	graph [rankdir=LR, ratio=auto];
+	graph [rankdir=BT, ratio=auto];
 	node [label="\N", fillcolor=red, shape=circle, style=filled];
 	edge [color=seagreen, style=dashed];
 	install [label=install];
