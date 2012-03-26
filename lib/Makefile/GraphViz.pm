@@ -51,7 +51,7 @@ my %EdgeStyle = ( color => 'red' );
 my %InitArgs = (
     layout    => 'dot',
     ratio     => 'auto',
-    rankdir   => 1,
+    rankdir   => 'BT',
     node      => \%NormalNodeStyle,
     edge      => \%EdgeStyle,
 );
