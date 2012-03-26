@@ -5,6 +5,8 @@ use Test::More tests => 4;
 use File::Compare;
 #use Test::LongString;
 
+my $debug = 0;
+
 my $out = `$^X -Ilib script/gvmake --help`;
 is $out, <<'_EOC_';
 Usage:
@@ -28,11 +30,11 @@ _EOC_
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6 --edge-len 2 -o t/Makefile6.dot"), 0;
 is fcmp('t/Makefile6.dot', 't/~Makefile6.dot'), 0;
-unlink "t/Makefile6.dot";
+unlink "t/Makefile6.dot" if !$debug;
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6"), 0;
-unlink "blog.agentzh.org.png";
-unlink "test.png";
+unlink "blog.agentzh.org.png" if !$debug;
+unlink "test.png" if !$debug;
 
 sub fcmp {
     return File::Compare::compare_text(
