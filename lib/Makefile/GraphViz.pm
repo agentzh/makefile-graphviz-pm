@@ -206,7 +206,6 @@ sub plot ($$@) {
         return $gv;
     }
 
-    my $i = 0;
     # Loop through root node list
     # TODO: Why is this an array? Should it not be a simple string?
     for my $root (@roots) {
@@ -251,7 +250,7 @@ sub plot ($$@) {
             # Recurse into 'plot' for prerequisite
             $self->plot($_, gv => $gv, @_);
         }
-    } continue { $i++ }
+    }
     return $gv;
 }
 
