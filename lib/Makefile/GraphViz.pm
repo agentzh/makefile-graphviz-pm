@@ -197,42 +197,49 @@ sub plot ($$@) {
         $is_virtual = 1;
     }
 
-    # Determine node subtype (end node or regular node)
-    if (_find($root_name, @{$opts{end_with}}) and !_find($root_name, @{$opts{no_end_with}})) {
-        # Node is member of end node list and not member of exception list -> end node
-        $gv->add_node(
-            $root_name,
-            label       => $short_name,
-            # Add URL because the user might want to create a set of interlinked
-            # graphs with each end node pointing to its sub-graph
-            URL         => $opts{url_fct}->($root_name),
-            $is_virtual ? %{$opts{vir_end_node_style}} : %{$opts{normal_end_node_style}}
-        );
-        # Call user-defined hook in case she wants to do something with end nodes,
-        # such as collect their names and then recursively plot sub-graphs.
-        $opts{end_with_callback}->($root_name) if $opts{end_with_callback};
-        # Stop processing here (thus the name "end node")
-        return $gv;
-    }
-    elsif (!@roots) {
-        # Node is a "tree leave" (target is undefined)
+    # Is there a make target for this node?
+    if (!@roots) {
+        # No -> node is a "tree leave" -> add node, then stop processing
         $gv->add_node(
             $root_name,
             label       => $short_name,
             $is_virtual ? %{$opts{vir_node_style}} : ()
         );
-        # Stop processing here ("tree leave")
         return $gv;
     }
 
-    # Loop through root node list
+    # Loop through node list for current target
     for my $root (@roots) {
-        # Add node for target
-        $gv->add_node(
-            $root_name,
-            label       => $short_name,
-            $is_virtual ? %{$opts{vir_node_style}} : ()
-        );
+        # Get prerequisites
+        my @prereqs = $root->prereqs;
+        # Is target flagged to be an end node?
+        my $is_end_node = (_find($root_name, @{$opts{end_with}}) and !_find($root_name, @{$opts{no_end_with}})) ? 1 : 0;
+
+        # Expandable end node (i.e. with prerequisites)?
+        if ($is_end_node and @prereqs) {
+            # Yes -> add end node with URL
+            $gv->add_node(
+                $root_name,
+                label       => $short_name,
+                # Add URL because the user might want to create a set of interlinked
+                # graphs with each end node pointing to its sub-graph
+                URL         => $opts{url_fct}->($root_name),
+                $is_virtual ? %{$opts{vir_end_node_style}} : %{$opts{normal_end_node_style}}
+            );
+            # Call user-defined hook in case she wants to do something with end nodes,
+            # such as collect their names and then recursively plot sub-graphs.
+            $opts{end_with_callback}->($root_name) if $opts{end_with_callback};
+            # Stop processing here (thus the name "end node")
+            #return $gv;
+        }
+        else {
+            # No-> ordinary node or end node without prerequisites -> add normal node
+            $gv->add_node(
+                $root_name,
+                label       => $short_name,
+                $is_virtual ? %{$opts{vir_node_style}} : ()
+            );
+        }
 
         # Add command node displaying target's recipe if trim_mode is false
         # and recipe exists. BTW, '\l' left-justifies each single line.
@@ -256,8 +263,10 @@ sub plot ($$@) {
             $lower_node = $root_name;
         }
 
-        # Get target's prerequisites and loop through them
-        my @prereqs = $root->prereqs;
+        # No further processing for end nodes
+        next if $is_end_node;
+
+        # Check prerequisites
         foreach (@prereqs) {
             # Ignore prerequisites on exclude list or named "|"
             next if $_ eq "|" or (_find($_, @{$opts{exclude}}) and !_find($_, @{$opts{no_exclude}}));
