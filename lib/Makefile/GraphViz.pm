@@ -179,7 +179,7 @@ sub plot ($$@) {
     }
 
     # Determine node subtype (end node or regular node)
-    if (!@roots or _find($root_name, @{$opts{end_with}}) and !_find($root_name, @{$opts{no_end_with}})) {
+    if (_find($root_name, @{$opts{end_with}}) and !_find($root_name, @{$opts{no_end_with}})) {
         # Node is member of end node list and not member of exception list -> end node
         $gv->add_node(
             $root_name,
@@ -193,6 +193,16 @@ sub plot ($$@) {
         # such as collect their names and then recursively plot sub-graphs.
         $opts{end_with_callback}->($root_name) if $opts{end_with_callback};
         # Stop processing here (thus the name "end node")
+        return $gv;
+    }
+    elsif (!@roots) {
+        # Node is a "tree leave" (target is undefined)
+        $gv->add_node(
+            $root_name,
+            label       => $short_name,
+            $is_virtual ? %{$opts{vir_node_style}} : ()
+        );
+        # Stop processing here ("tree leave")
         return $gv;
     }
 
