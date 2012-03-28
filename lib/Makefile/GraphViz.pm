@@ -161,10 +161,29 @@ sub plot ($$@) {
     $Nodes{$root_name} = 1;
 
     # Initialise root node list
-    # TODO: Why is this an array? Should it not be a simple string?
     my @roots = ($root_name and ref $root_name)
         ? $root_name
         : ($self->target($root_name));
+
+    # INFO: Why a list? Because multiple definitions of the same target with
+    # different prerequisites and recipes (commands) can occur. In this case
+    # $self->target returns multiple target objects with the same name, but
+    # different properties. Run the test suite and uncomment the code below
+    # to see this happen.
+    #if (scalar(@roots) > 1) {
+    #    warn "\n\@roots contains multiple entries\n" ;
+    #    if ($root_name and ref $root_name) {
+    #        warn "  \$root_name is a reference\n" ;
+    #    }
+    #    else {
+    #        warn "  \$self->target(\$root_name) delivers >1 targets\n" ;
+    #        for my $root (@roots) {
+    #            my @p = $root->prereqs();
+    #            my @c = $root->commands();
+    #            warn "    root = $root  ->  prereqs = @p  /  commands = @c\n";
+    #        }
+    #    }
+    #}
 
     # Trim node name
     my $short_name = $opts{node_trim_fct}->($root_name);
@@ -207,7 +226,6 @@ sub plot ($$@) {
     }
 
     # Loop through root node list
-    # TODO: Why is this an array? Should it not be a simple string?
     for my $root (@roots) {
         # Add node for target
         $gv->add_node(
