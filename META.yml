@@ -28,4 +28,4 @@ requires:
 resources:
   license: http://opensource.org/licenses/bsd-license.php
   repository: https://github.com/agentzh/makefile-graphviz-pm
-version: 0.20
+version: 0.21

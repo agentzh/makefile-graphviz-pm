@@ -24,7 +24,7 @@ Table of Contents
 
 # VERSION
 
-This document describes Makefile::GraphViz 0.20 released on 29 November 2011.
+This document describes Makefile::GraphViz 0.21 released on 7 December 2014.
 
 # SYNOPSIS
 

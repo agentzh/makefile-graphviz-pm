@@ -1,5 +1,106 @@
 Revision history for Perl extension Makefile::GraphViz.
 
+0.21 2014-12-07
+Most of the changes are contributed by Alexander Kriegisch.
+
+* now we use the 2-clause BSD license. also updated the copyright years.
+
+* Differentiate between 'end_with' nodes and tree leaves
+
+    - 'end_with' nodes get link URLs and another colour, but normal tree leaves
+      (prerequisites without target definitions) should look just like any other
+      normal node.
+    - Fix tests to reflect this change.
+
+* 'end_with' nodes without prerequisites are no real end nodes
+
+    So they should be treated like normal nodes, i.e. we
+    - do not paint them green,
+    - do not add URLs to them,
+    - do not call end node callbacks for them which might otherwise cause the
+      creation of trivial, one-node sub-graphs,
+
+    Please note that there also is one incompatible little change in behaviour:
+    'end_with' nodes, no matter if with or without prerequisites, now get their
+    commands/recipes printed because this is what a user would expect for a node
+    occurring in a graph with 'trim_mode == false'. One test file was changed to
+    reflect this new behaviour.
+
+* New API hook 'end_with_callback' for handling 'end_with' events
+
+    Now users can call 'plot' like this to recursively create sub-graphs for
+    'end_with' nodes:
+
+    %targets=( "all" => 0, "install" => 0 );
+    @targets_to_do = keys %targets;
+    while (@targets_to_do)
+    {
+        $target = @targets_to_do[0];
+        $gv = $parser->plot(
+            $target,
+            end_with => [ "foo", qr{^.+-bar$} ],
+            no_end_with => [ $target ],
+            end_with_callback => sub($)
+            {
+                my $target = shift;
+                $targets{$target} = 0 unless exists $targets{$target};
+            },
+            ...
+        );
+        ...
+        $targets{$target} = 1;
+        @targets_to_do = grep { ! $targets{$_} } keys %targets;
+    }
+
+* Set graph name (useful when creating image maps or PS/PDF with links, looks
+  nicer in browser)
+
+* New options 'normal_end_node_style' and 'vir_end_node_style' (defaulting to
+    light green instead of light yellow background) visually indicate 'end_with'
+    nodes, so the user immediately detects that those nodes have (hidden) sub-nodes
+    which might be accessible via mouse click in image map or SVG scenarios.
+
+* New option 'url_fct' with default implementation '_url' sets target URLs for
+    'end_with' nodes, assuming that they will be linked to other graphs starting
+    where the current graph ends. This is useful when generating interlinked SVG
+    files (mode 'svg') or graphics + image maps (mode 'cmapx'). This way users can
+    create hierarchies or webs of graphs and sub-graphs.
+
+* Change 'fillcolor' to similar, but web-safe yellow #ffff99.
+
+* Set default font to Arial because when generating SVG the default would
+      otherwise be Times New Roman which looks kinda ugly.
+
+* New options 'node_trim_fct' and 'cmd_trim_fct' enable user-specified trimming
+    functions for target names/paths and command node content. The previous,
+    hard-wired behaviour is now just a default.
+
+* Bugfix: Do not falsely display "|" as a node name anymore because it is not a
+    dependency but just a separator between normal and order-only dependencies.
+
+* Display 'end_with' nodes with surrounding square brackets (e.g. "[my_target]")
+    to visually indicate that the node contains dependent targets which are not
+    displayed.
+
+* Make sure code nodes have left-justifies rather than centered text by adding
+    "\l" to each end of line instead of "\n", so as for GraphViz to know what we
+    want.
+
+* Add new options 'no_end_with' and 'no_exclude', specifying exceptions for
+    'end_with' and 'exclude'. Regex and string matches are allowed. This is
+    especially helpful if the make target name matches an 'end_with' regex pattern
+    but should not be a graph end point. The result would be a single node - not
+    very insightful. ;-) So just add $ARGV[1] (or wherever the caller stores the
+    target name) to 'no_end_with' and you are safe.
+
+* Changed default layout from top-down to left-right (rankdir=1). This is better
+    for most medium-sized to large graphs.
+
+* Changed default GraphViz font size to 10.
+
+* Changed node style for code to "note" shape (looks like a paper sheet),
+      Monospace font (size 8), light grey background (#dddddd).
+
 0.20 2011-11-29
 * bugfix: dot complained about the "edge;" syntax error when no --edge-len
   option is not specified while running the "gvmake" utility.
