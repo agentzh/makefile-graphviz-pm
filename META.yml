@@ -27,5 +27,5 @@ requires:
   perl: 5.6.1
 resources:
   license: http://opensource.org/licenses/bsd-license.php
-  repository: http://github.com/agentzh/makefile-graphviz-pm
+  repository: https://github.com/agentzh/makefile-graphviz-pm
 version: 0.20

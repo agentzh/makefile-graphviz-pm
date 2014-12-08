@@ -6,7 +6,7 @@ name            ('Makefile-GraphViz');
 perl_version    ('5.006001');
 all_from        ('lib/Makefile/GraphViz.pm');
 
-repository "http://github.com/agentzh/makefile-graphviz-pm";
+repository      ("https://github.com/agentzh/makefile-graphviz-pm");
 
 install_script  ("script/gvmake");
 
