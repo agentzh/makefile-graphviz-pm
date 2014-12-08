@@ -3,7 +3,7 @@ use Test::More tests => 4;
 use Makefile::GraphViz;
 use File::Compare;
 
-my $debug = 0;
+my $debug = 1;
 
 {
     my $parser = Makefile::GraphViz->new;
@@ -13,7 +13,7 @@ my $debug = 0;
     $gv->as_png('t/Makefile4.png') if $debug;
     my $outfile = 't/Makefile4.dot';
     ok $gv->as_canon($outfile);
-    is fcmp($outfile, "t/~Makefile4.dot"), 0;
+    is fcmp($outfile, "t/Makefile4.dot.expected"), 0;
     unlink $outfile if !$debug;
 }
 

@@ -22,3 +22,4 @@ bin/.*\.dat
 \.swp$
 ^blib
 ^Makefile-GraphViz-\d+\.\d+
+^t/.*\.dot$

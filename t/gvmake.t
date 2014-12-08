@@ -29,7 +29,7 @@ Options:
 _EOC_
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6 --edge-len 2 -o t/Makefile6.dot"), 0;
-is fcmp('t/Makefile6.dot', 't/~Makefile6.dot'), 0;
+is fcmp('t/Makefile6.dot', 't/Makefile6.dot.expected'), 0;
 unlink "t/Makefile6.dot" if !$debug;
 
 is system("$^X -Ilib script/gvmake -f t/Makefile6"), 0;

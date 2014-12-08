@@ -10,3 +10,5 @@ t/Makefile6.dot
 t/*.png
 Makefile-GraphViz-*
 MYMETA.*
+t/*.expected
+t/*.dot

@@ -28,7 +28,7 @@ isa_ok $gv, 'GraphViz';
 my $outfile = 't/doc.dot';
 ok $gv->as_canon($outfile);
 $gv->as_png('t/doc.png') if $debug;
-is fcmp($outfile, "t/~doc.dot"), 0;
+is fcmp($outfile, "t/doc.dot.expected"), 0;
 unlink $outfile if !$debug;
 
 $gv = $parser->plot(
@@ -53,7 +53,7 @@ is Makefile::GraphViz::_trim_cmd("del t\\tmp"), "del t\\\\tmp";
 $outfile = 't/cmintest.dot';
 ok $gv->as_canon($outfile);
 $gv->as_png('t/cmintest.png') if $debug;
-is fcmp($outfile, "t/~cmintest.dot"), 0, $outfile;
+is fcmp($outfile, "t/cmintest.dot.expected"), 0, $outfile;
 unlink $outfile if !$debug;
 
 ok $parser->parse("t/Makefile2");
@@ -65,7 +65,8 @@ ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/install.dot';
 ok $gv->as_canon($outfile);
-is fcmp($outfile, "t/~install.dot"), 0, $outfile;
+$gv->as_png('t/install.png') if $debug;
+is fcmp($outfile, "t/install.dot.expected"), 0, $outfile;
 #exit;
 unlink $outfile if !$debug;
 
@@ -92,7 +93,8 @@ ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/install2.dot';
 ok $gv->as_canon($outfile);
-is fcmp($outfile, "t/~install2.dot"), 0;
+$gv->as_png('t/install2.png') if $debug;
+is fcmp($outfile, "t/install2.dot.expected"), 0;
 #exit
 unlink $outfile if !$debug;
 
@@ -104,7 +106,8 @@ ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/sum.dot';
 ok $gv->as_canon($outfile);
-is fcmp($outfile, "t/~sum.dot"), 0;
+$gv->as_png('t/sum.png') if $debug;
+is fcmp($outfile, "t/sum.dot.expected"), 0;
 unlink $outfile if !$debug;
 
 $parser->parse('t/Makefile4');
@@ -115,7 +118,8 @@ ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/bench.dot';
 ok $gv->as_canon($outfile);
-is fcmp($outfile, "t/~bench.dot"), 0;
+$gv->as_png('t/bench.png') if $debug;
+is fcmp($outfile, "t/bench.dot.expected"), 0;
 unlink $outfile if !$debug;
 
 $parser->parse('t/Makefile5');
@@ -124,7 +128,8 @@ ok $gv;
 isa_ok $gv, 'GraphViz';
 $outfile = 't/multi.dot';
 ok $gv->as_canon($outfile);
-is fcmp($outfile, "t/~multi.dot"), 0;
+$gv->as_png('t/multi.png') if $debug;
+is fcmp($outfile, "t/multi.dot.expected"), 0;
 unlink $outfile if !$debug;
 
 sub fcmp {
