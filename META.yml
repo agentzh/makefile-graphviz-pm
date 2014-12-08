@@ -1,7 +1,7 @@
 ---
 abstract: 'Draw building flowcharts from Makefiles using GraphViz'
 author:
-  - "Zhang \"agentzh\" Yichun (章亦春) C<< <agentzh@gmail.com> >>"
+  - "Yichun \"agentzh\" Zhang (章亦春) C<< <agentzh@gmail.com> >>"
 build_requires:
   ExtUtils::MakeMaker: 6.59
   File::Compare: 0
@@ -11,7 +11,7 @@ configure_requires:
 distribution_type: module
 dynamic_config: 1
 generated_by: 'Module::Install version 1.06'
-license: perl
+license: bsd
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
@@ -26,6 +26,6 @@ requires:
   Makefile::Parser: 0.216
   perl: 5.6.1
 resources:
-  license: http://dev.perl.org/licenses/
+  license: http://opensource.org/licenses/bsd-license.php
   repository: http://github.com/agentzh/makefile-graphviz-pm
 version: 0.20
